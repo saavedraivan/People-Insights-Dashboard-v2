@@ -1522,9 +1522,7 @@ const WEEKLY_MOV = {
   },
   "5/11/26": {
     bajas: [
-      { country:"Peru",          name:"Luis Marchena",     title:"Key Account Lead",       level:"2b", reason:"Resignation"        },
       { country:"Brazil",        name:"Elias Monteiro",    title:"Marketing Manager",      level:"3a", reason:"Resignation"        },
-      { country:"Peru",          name:"Karen Higaki",      title:"Growth Analyst",         level:"2a", reason:"Personal Reasons"   },
       { country:"Ecuador",       name:"Jeferson Ganchala", title:"Sales Representative",   level:"1a", reason:"Performance"        },
       { country:"Mexico",        name:"Siomara Caballero", title:"Senior Sales Manager",   level:"4b", reason:"Better Opportunity" },
       { country:"United States", name:"Brandon Fenton",    title:"VP of People",           level:"6a", reason:"Position Elimination"},
@@ -1591,26 +1589,20 @@ function renderMovements() {
   if (!data) return;
 
   const bajaItems = data.bajas.map(b => {
-    const lv = b.level ? shortLevel(b.level) : "";
-    const lvHtml = lv ? ` · <span style="color:var(--text-muted)">${lv}</span>` : "";
-    const nameHtml = b.name ? `<div class="mov-item-name">${b.name}</div>` : "";
-    const titleLine = b.title ? `<div class="mov-item-title">${b.title}${lvHtml}</div>` : (lv ? `<div class="mov-item-title">${lvHtml.replace(' · ','')}</div>` : "");
     const termType = b.reason ? TERM_TYPE[b.reason] : "";
     const typeClass = termType === "Voluntary" ? "term-type-vol" : termType === "Involuntary" ? "term-type-invol" : "";
     const typeHtml = termType ? `<span class="term-type-badge ${typeClass}">${termType}</span>` : "";
     const reasonHtml = b.reason ? `<span class="mov-item-reason ${REASON_CLASS[b.reason]||''}">${b.reason}</span>` : "";
     return `<div class="mov-item baja">
       <div class="mov-item-country">${b.country}</div>
-      ${nameHtml}${titleLine}
+      ${b.title ? `<div class="mov-item-title">${b.title}</div>` : ""}
       <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:3px;">${typeHtml}${reasonHtml}</div>
     </div>`;
   }).join("");
 
   const ingresoItems = data.ingresos.map(i => {
-    const lv = i.level ? shortLevel(i.level) : "";
-    const lvHtml = lv ? ` · <span style="color:var(--text-muted)">${lv}</span>` : "";
     const nameHtml = i.name ? `<div class="mov-item-name">${i.name}</div>` : "";
-    const titleLine = i.title ? `<div class="mov-item-title">${i.title}${lvHtml}</div>` : (lv ? `<div class="mov-item-title"><span style="color:var(--text-muted)">${lv}</span></div>` : "");
+    const titleLine = i.title ? `<div class="mov-item-title">${i.title}</div>` : "";
     const managerLine = i.manager ? `<div style="font-size:10.5px;color:var(--text-muted);margin-top:2px;">Manager: ${i.manager}</div>` : "";
     return `<div class="mov-item ingreso">
       <div class="mov-item-country">${i.country}</div>
