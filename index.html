@@ -513,9 +513,9 @@
 
     <!-- HC TOTAL BANNER -->
     <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:14px;">
-      <span style="font-size:38px;font-weight:900;color:var(--text-primary);letter-spacing:-1px;" id="hc-banner-num">1,045</span>
+      <span style="font-size:38px;font-weight:900;color:var(--text-primary);letter-spacing:-1px;" id="hc-banner-num">1,056</span>
       <span style="font-size:14px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.4px;">HC Total</span>
-      <span style="font-size:13px;font-weight:600;color:var(--green);background:var(--green-light);padding:2px 10px;border-radius:99px;" id="hc-banner-delta">+6 vs Apr · +0.6%</span>
+      <span style="font-size:13px;font-weight:600;color:var(--green);background:var(--green-light);padding:2px 10px;border-radius:99px;" id="hc-banner-delta">+17 vs Apr · +1.6%</span>
       <span style="font-size:12px;color:var(--text-muted);margin-left:4px;" id="hc-banner-period">May 2026</span>
     </div>
 
@@ -1755,11 +1755,20 @@ function updateKPIHC() {
   } else {
     document.getElementById("kpi-hc-note").textContent = latest.label;
   }
-  // reset to full if no filter
+  // update visible banner
   if (!depto && !nivel && !emptype) {
     document.getElementById("kpi-hc").textContent = "1,056";
     document.getElementById("kpi-hc-delta-val").textContent = "+14.2%";
     document.getElementById("kpi-hc-note").textContent = "+131 vs Dec 2025";
+    document.getElementById("hc-banner-num").textContent = "1,056";
+    document.getElementById("hc-banner-delta").textContent = "+17 vs Apr · +1.6%";
+    document.getElementById("hc-banner-period").textContent = "May 2026";
+  } else {
+    const prevLabel = prev ? prev.label : "";
+    const absDelta = prev ? hc - prev.hc : 0;
+    document.getElementById("hc-banner-num").textContent = hc.toLocaleString();
+    document.getElementById("hc-banner-delta").textContent = prev ? (absDelta >= 0 ? "+" : "") + absDelta + " vs " + prevLabel + " · " + (delta >= 0 ? "+" : "") + delta + "%" : "";
+    document.getElementById("hc-banner-period").textContent = latest.label;
   }
 }
 
