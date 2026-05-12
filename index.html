@@ -19,7 +19,7 @@
           </div>
           <div style="font-size:20px;font-weight:700;color:#1a1d23;margin-bottom:6px;">People Insights</div>
           <div style="font-size:13px;color:#6b7280;margin-bottom:28px;">Enter your password to access the dashboard</div>
-          <input id="pwd-input" type="password" placeholder="Password"a
+          <input id="pwd-input" type="password" placeholder="Password"
             style="width:100%;padding:11px 16px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:10px;font-family:inherit;transition:border-color 0.15s;"
             onfocus="this.style.borderColor='#2563EB'" onblur="this.style.borderColor='#e5e7eb'"
             onkeydown="if(event.key==='Enter')checkPwd()" />
@@ -296,20 +296,20 @@
   .mov-count { font-size:18px; font-weight:800; }
   .mov-count.bajas { color:var(--rose); }
   .mov-count.ingresos { color:var(--green); }
-  .mov-list { display:flex; flex-direction:column; gap:5px; max-height:220px; overflow-y:auto; }
-  .mov-item { padding:6px 8px; border-radius:7px; font-size:11px; }
-  .mov-item.baja  { background:var(--rose-light); border:1px solid #fecdd3; }
-  .mov-item.ingreso { background:var(--green-light); border:1px solid #bbf7d0; }
-  .mov-item-country { font-weight:600; color:var(--text-primary); font-size:11px; }
-  .mov-item-name  { font-size:11px; font-weight:600; color:var(--text-primary); margin-top:1px; }
-  .mov-item-title { color:var(--text-secondary); font-size:10.5px; margin-top:1px; }
-  .mov-item-reason { display:inline-block; margin-top:3px; font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:99px; }
+  .mov-list { display:flex; flex-direction:column; gap:2px; }
+  .mov-item { padding:3px 6px 3px 8px; border-radius:5px; font-size:11px; border:1px solid transparent; border-left-width:3px; }
+  .mov-item.baja  { background:var(--rose-light); }
+  .mov-item.ingreso { background:var(--green-light); }
+  .mov-item-country { font-weight:700; font-size:9px; text-transform:uppercase; letter-spacing:0.4px; line-height:1.2; }
+  .mov-item-name  { font-size:10.5px; font-weight:600; color:var(--text-primary); line-height:1.3; }
+  .mov-item-title { color:var(--text-secondary); font-size:9.5px; line-height:1.2; }
+  .mov-item-reason { display:inline-block; margin-top:2px; font-size:8.5px; font-weight:700; padding:1px 4px; border-radius:99px; }
   .reason-resignation  { background:#fecdd3; color:#9f1239; }
   .reason-performance  { background:#fed7aa; color:#9a3412; }
   .reason-contract     { background:#e0e7ff; color:#3730a3; }
   .reason-voluntary    { background:#fde68a; color:#92400e; }
   .reason-involuntary  { background:#f3e8ff; color:#6b21a8; }
-  .term-type-badge { display:inline-block; font-size:9px; font-weight:800; padding:1px 6px; border-radius:99px; text-transform:uppercase; letter-spacing:0.3px; }
+  .term-type-badge { display:inline-block; font-size:8.5px; font-weight:800; padding:1px 5px; border-radius:99px; text-transform:uppercase; letter-spacing:0.3px; }
   .term-type-vol   { background:#dcfce7; color:#166534; }
   .term-type-invol { background:#fee2e2; color:#991b1b; }
 
@@ -447,6 +447,15 @@
   .typing-dot:nth-child(2) { animation-delay: 0.2s; }
   .typing-dot:nth-child(3) { animation-delay: 0.4s; }
   @keyframes typingBounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
+
+  /* ── PAGE TABS ──────────────────────────────────────── */
+  .page-tabs { display:flex; gap:0; padding:0 24px; border-bottom:2px solid var(--border); background:var(--surface); position:sticky; top:56px; z-index:10; margin-bottom:0; }
+  .page-tab { padding:11px 20px; font-size:13px; font-weight:500; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.15s; white-space:nowrap; user-select:none; }
+  .page-tab:hover { color:var(--text-primary); }
+  .page-tab.active { color:var(--blue); border-bottom-color:var(--blue); font-weight:600; }
+  .tab-page { display:none; }
+  .tab-page.active { display:block; }
+
 </style>
 </head>
 <body>
@@ -494,6 +503,16 @@
 
 
   <div class="content">
+    <!-- PAGE TABS -->
+    <div class="page-tabs">
+      <div class="page-tab active" onclick="switchTab('tab-hc')">Headcount</div>
+      <div class="page-tab" onclick="switchTab('tab-attrition')">Attrition & Turnover</div>
+      <div class="page-tab" onclick="switchTab('tab-analysis')">Another Analysis</div>
+    </div><!-- /page-tabs -->
+
+    <div id="tab-hc" class="tab-page active">
+
+
 
     <!-- hidden KPI anchors kept for JS compatibility -->
     <span id="kpi-hc" style="display:none"></span>
@@ -563,7 +582,7 @@
     </div>
 
     <!-- ROW 2: HC by Country + Weekly Exits & New Hires -->
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:18px;">
+    <div style="display:grid; grid-template-columns: 2fr 3fr; gap:16px; margin-bottom:18px; align-items:start;">
 
       <!-- HC by Country bars -->
       <div class="chart-card" style="overflow:hidden;">
@@ -584,11 +603,11 @@
         <div class="chart-card-header" style="margin-bottom:10px;">
           <div><h3>Weekly Movements</h3><p id="mov-subtitle">Exits &amp; New Hires · by week</p></div>
           <select class="week-select filter-select" onchange="setWeek(this.value)" style="font-size:11px;padding:3px 10px;height:28px;">
-            <option value="1/6/26">Jan 6</option><option value="1/13/26">Jan 13</option><option value="1/20/26">Jan 20</option><option value="1/27/26">Jan 27</option>
-            <option value="2/3/26">Feb 3</option><option value="2/10/26">Feb 10</option><option value="2/17/26">Feb 17</option><option value="2/24/26">Feb 24</option>
-            <option value="3/3/26">Mar 3</option><option value="3/10/26">Mar 10</option><option value="3/17/26">Mar 17</option><option value="3/24/26">Mar 24</option><option value="3/31/26">Mar 31</option>
-            <option value="4/7/26">Apr 7</option><option value="4/14/26">Apr 14</option><option value="4/21/26">Apr 21</option><option value="4/28/26">Apr 28</option>
-            <option value="5/5/26">May 5</option>
+            <option value="1/5/26">Jan 5</option><option value="1/12/26">Jan 12</option><option value="1/19/26">Jan 19</option><option value="1/26/26">Jan 26</option>
+            <option value="2/2/26">Feb 2</option><option value="2/9/26">Feb 9</option><option value="2/16/26">Feb 16</option><option value="2/23/26">Feb 23</option>
+            <option value="3/2/26">Mar 2</option><option value="3/9/26">Mar 9</option><option value="3/16/26">Mar 16</option><option value="3/23/26">Mar 23</option><option value="3/30/26">Mar 30</option>
+            <option value="4/6/26">Apr 6</option><option value="4/13/26">Apr 13</option><option value="4/20/26">Apr 20</option><option value="4/27/26">Apr 27</option>
+            <option value="5/4/26">May 4</option>
             <option value="5/11/26" selected>May 11</option>
           </select>
         </div>
@@ -596,12 +615,14 @@
       </div>
 
     </div>
+    </div><!-- /tab-hc -->
 
-    <div class="section-divider"></div>
+    <!-- TAB: Attrition -->
+    <div id="tab-attrition" class="tab-page">
 
     <!-- ATTRITION SECTION HEADER -->
     <div class="section-header">
-      <span class="section-title">Attrition <span style="font-size:11px;font-weight:400;opacity:0.7;letter-spacing:0;">(Attrition % = Monthly exits ÷ ((HC start of month + HC end of month) ÷ 2) × 100)</span></span>
+      <span class="section-title">Turnover <span style="font-size:11px;font-weight:400;opacity:0.7;letter-spacing:0;">(Turnover % = Monthly exits ÷ ((HC start of month + HC end of month) ÷ 2) × 100)</span></span>
       <div class="active-filters" id="active-filters-bottom"></div>
     </div>
 
@@ -612,7 +633,7 @@
       <div class="chart-card">
         <div class="chart-card-header">
           <div>
-            <h3>Monthly Attrition Trend</h3>
+            <h3>Monthly Turnover Trend</h3>
             <p>May 2025 → Apr 2026 · Real data</p>
           </div>
           <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-secondary);">
@@ -623,14 +644,14 @@
         <div id="chart-attr-trend" style="width:100%;overflow:hidden;"></div>
         <div style="margin-top:10px;padding:8px 10px;background:#f0fdf4;border-radius:6px;border:1px solid #bbf7d0;display:flex;align-items:flex-start;gap:7px;">
           <span style="font-size:13px;line-height:1.4;">🟢</span>
-          <span style="font-size:10.5px;color:#15803d;line-height:1.5;"><strong>Green band (1.5% – 2.2%)</strong> represents the healthy monthly attrition range for fintech companies in emerging markets, based on Radford and Mercer industry benchmarks. Months above this band indicate higher-than-market turnover and may warrant further investigation.</span>
+          <span style="font-size:10.5px;color:#15803d;line-height:1.5;"><strong>Green band (1.5% – 2.2%)</strong> represents the healthy monthly turnover range for fintech companies in emerging markets, based on Radford and Mercer industry benchmarks. Months above this band indicate higher-than-market turnover and may warrant further investigation.</span>
         </div>
       </div>
 
       <!-- ATTRITION BY DEPT -->
       <div class="chart-card">
         <div class="chart-card-header">
-          <div><h3>Attrition by Department</h3><p id="attr-subtitle">% exits over headcount in the period</p></div>
+          <div><h3>Turnover by Department</h3><p id="attr-subtitle">% exits over headcount in the period</p></div>
           <select id="attr-month-select" class="filter-select" style="font-size:11px;padding:4px 8px;height:28px;" onchange="setAttrMonth(this.value)">
             <option value="">All months</option>
             <option value="0">May 25</option>
@@ -672,8 +693,11 @@
     <span id="insights-scope" style="display:none"></span>
     <span id="insights-title" style="display:none"></span>
     <div id="insights-content" style="display:none"></div>
+    </div><!-- /tab-attrition -->
 
-    <div class="section-divider"></div>
+    <!-- TAB: Another Analysis -->
+    <div id="tab-analysis" class="tab-page">
+<div class="section-divider"></div>
 
     <!-- OTHERS SECTION -->
     <div class="section-header">
@@ -721,6 +745,8 @@
         </div>
       </div>
     </div>
+    </div><!-- /tab-analysis -->
+
 
   </div>
 </main>
@@ -1005,7 +1031,7 @@ const DATA = {
     { m:"Jan  26",  exits:17, vol:4,  invol:13, avgHC:933,  pct:1.82, early:1  },
     { m:"Feb  26",  exits:17, vol:6,  invol:11, avgHC:950,  pct:1.79, early:4  },
     { m:"Mar  26",  exits:21, vol:9,  invol:12, avgHC:981,  pct:2.14, early:6  },
-    { m:"Apr  26",  exits:18, vol:7,  invol:11, avgHC:1021, pct:1.76, early:5  },
+    { m:"Apr  26",  exits:25, vol:12, invol:13, avgHC:1021, pct:2.45, early:8  },
   ]
 };
 
@@ -1113,24 +1139,39 @@ const HC_BY_COUNTRY = {
 
 // ─── WEEKLY HC BY COUNTRY ────────────────────────────────────────────────────
 const HC_WEEKLY_COUNTRY = {
-  "1/6/26":  { total:943,  rows:[ {country:"Mexico",hc:304},{country:"Colombia",hc:144},{country:"Brazil",hc:127},{country:"United States",hc:83},{country:"Peru",hc:74},{country:"South Africa",hc:63},{country:"Ecuador",hc:59},{country:"Philippines",hc:45},{country:"Panama",hc:28},{country:"Indonesia",hc:7},{country:"China",hc:6},{country:"India",hc:3} ]},
-  "1/13/26": { total:950,  rows:[ {country:"Mexico",hc:304},{country:"Colombia",hc:142},{country:"Brazil",hc:135},{country:"United States",hc:83},{country:"Peru",hc:73},{country:"South Africa",hc:63},{country:"Ecuador",hc:60},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:7},{country:"China",hc:6},{country:"India",hc:3} ]},
-  "1/20/26": { total:951,  rows:[ {country:"Mexico",hc:306},{country:"Colombia",hc:142},{country:"Brazil",hc:133},{country:"United States",hc:83},{country:"Peru",hc:73},{country:"South Africa",hc:63},{country:"Ecuador",hc:60},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
-  "1/27/26": { total:942,  rows:[ {country:"Mexico",hc:301},{country:"Colombia",hc:140},{country:"Brazil",hc:132},{country:"United States",hc:83},{country:"Peru",hc:73},{country:"South Africa",hc:63},{country:"Ecuador",hc:59},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
-  "2/3/26":  { total:952,  rows:[ {country:"Mexico",hc:305},{country:"Colombia",hc:140},{country:"Brazil",hc:134},{country:"United States",hc:84},{country:"Peru",hc:75},{country:"South Africa",hc:64},{country:"Ecuador",hc:59},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
-  "2/10/26": { total:960,  rows:[ {country:"Mexico",hc:307},{country:"Colombia",hc:140},{country:"Brazil",hc:139},{country:"United States",hc:84},{country:"Peru",hc:75},{country:"South Africa",hc:64},{country:"Ecuador",hc:60},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
-  "2/17/26": { total:956,  rows:[ {country:"Mexico",hc:307},{country:"Colombia",hc:141},{country:"Brazil",hc:135},{country:"United States",hc:84},{country:"Peru",hc:75},{country:"South Africa",hc:63},{country:"Ecuador",hc:58},{country:"Philippines",hc:49},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
-  "2/24/26": { total:958,  rows:[ {country:"Mexico",hc:307},{country:"Colombia",hc:141},{country:"Brazil",hc:136},{country:"United States",hc:84},{country:"Peru",hc:75},{country:"South Africa",hc:62},{country:"Ecuador",hc:58},{country:"Philippines",hc:50},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:4} ]},
-  "3/3/26":  { total:985,  rows:[ {country:"Mexico",hc:315},{country:"Colombia",hc:146},{country:"Brazil",hc:146},{country:"United States",hc:85},{country:"Peru",hc:75},{country:"South Africa",hc:63},{country:"Ecuador",hc:59},{country:"Philippines",hc:51},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:4} ]},
-  "3/10/26": { total:991,  rows:[ {country:"Mexico",hc:316},{country:"Brazil",hc:150},{country:"Colombia",hc:145},{country:"United States",hc:85},{country:"Peru",hc:76},{country:"South Africa",hc:64},{country:"Ecuador",hc:59},{country:"Philippines",hc:50},{country:"Panama",hc:28},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:4} ]},
-  "3/17/26": { total:1001, rows:[ {country:"Mexico",hc:325},{country:"Brazil",hc:154},{country:"Colombia",hc:144},{country:"United States",hc:84},{country:"Peru",hc:77},{country:"South Africa",hc:62},{country:"Ecuador",hc:59},{country:"Philippines",hc:49},{country:"Panama",hc:29},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:4} ]},
-  "3/24/26": { total:1006, rows:[ {country:"Mexico",hc:324},{country:"Brazil",hc:153},{country:"Colombia",hc:146},{country:"United States",hc:85},{country:"Peru",hc:77},{country:"South Africa",hc:62},{country:"Ecuador",hc:60},{country:"Philippines",hc:51},{country:"Panama",hc:28},{country:"Indonesia",hc:8},{country:"China",hc:7},{country:"India",hc:5} ]},
-  "3/31/26": { total:1001, rows:[ {country:"Mexico",hc:322},{country:"Brazil",hc:149},{country:"Colombia",hc:147},{country:"United States",hc:85},{country:"Peru",hc:78},{country:"South Africa",hc:61},{country:"Ecuador",hc:60},{country:"Philippines",hc:51},{country:"Panama",hc:28},{country:"Indonesia",hc:8},{country:"China",hc:7},{country:"India",hc:5} ]},
-  "4/7/26":  { total:1018, rows:[ {country:"Mexico",hc:329},{country:"Brazil",hc:155},{country:"Colombia",hc:149},{country:"United States",hc:87},{country:"Peru",hc:78},{country:"South Africa",hc:61},{country:"Ecuador",hc:60},{country:"Philippines",hc:50},{country:"Panama",hc:28},{country:"Indonesia",hc:9},{country:"China",hc:7},{country:"India",hc:5} ]},
-  "4/14/26": { total:1038, rows:[ {country:"Mexico",hc:333},{country:"Brazil",hc:157},{country:"Colombia",hc:151},{country:"United States",hc:87},{country:"Peru",hc:78},{country:"South Africa",hc:62},{country:"Ecuador",hc:61},{country:"Philippines",hc:60},{country:"Panama",hc:28},{country:"Indonesia",hc:9},{country:"China",hc:7},{country:"India",hc:5} ]},
-  "4/21/26": { total:1045, rows:[ {country:"Mexico",hc:335},{country:"Brazil",hc:159},{country:"Colombia",hc:154},{country:"United States",hc:88},{country:"Peru",hc:79},{country:"South Africa",hc:62},{country:"Ecuador",hc:60},{country:"Philippines",hc:60},{country:"Panama",hc:27},{country:"Indonesia",hc:9},{country:"China",hc:7},{country:"India",hc:5} ]},
-  "4/28/26": { total:1039, rows:[ {country:"Mexico",hc:332},{country:"Brazil",hc:155},{country:"Colombia",hc:154},{country:"United States",hc:87},{country:"Peru",hc:80},{country:"South Africa",hc:62},{country:"Ecuador",hc:60},{country:"Philippines",hc:60},{country:"Panama",hc:27},{country:"Indonesia",hc:10},{country:"China",hc:7},{country:"India",hc:5} ]},
-  "5/5/26":  { total:1045, rows:[ {country:"Mexico",hc:328},{country:"Brazil",hc:158},{country:"Colombia",hc:156},{country:"United States",hc:89},{country:"Peru",hc:82},{country:"South Africa",hc:62},{country:"Ecuador",hc:61},{country:"Philippines",hc:59},{country:"Panama",hc:26},{country:"Indonesia",hc:12},{country:"China",hc:7},{country:"India",hc:5} ]},
+  "1/5/26":  { total:943,  rows:[ {country:"Mexico",hc:304},{country:"Colombia",hc:144},{country:"Brazil",hc:127},{country:"United States",hc:83},{country:"Peru",hc:74},{country:"South Africa",hc:63},{country:"Ecuador",hc:59},{country:"Philippines",hc:45},{country:"Panama",hc:28},{country:"Indonesia",hc:7},{country:"China",hc:6},{country:"India",hc:3} ]},
+  "1/12/26": { total:950,  rows:[ {country:"Mexico",hc:304},{country:"Colombia",hc:142},{country:"Brazil",hc:135},{country:"United States",hc:83},{country:"Peru",hc:73},{country:"South Africa",hc:63},{country:"Ecuador",hc:60},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:7},{country:"China",hc:6},{country:"India",hc:3} ]},
+  "1/19/26": { total:951,  rows:[ {country:"Mexico",hc:306},{country:"Colombia",hc:142},{country:"Brazil",hc:133},{country:"United States",hc:83},{country:"Peru",hc:73},{country:"South Africa",hc:63},{country:"Ecuador",hc:60},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
+  "1/26/26": { total:942,  rows:[ {country:"Mexico",hc:301},{country:"Colombia",hc:140},{country:"Brazil",hc:132},{country:"United States",hc:83},{country:"Peru",hc:73},{country:"South Africa",hc:63},{country:"Ecuador",hc:59},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
+  "2/2/26":  { total:952,  rows:[ {country:"Mexico",hc:305},{country:"Colombia",hc:140},{country:"Brazil",hc:134},{country:"United States",hc:84},{country:"Peru",hc:75},{country:"South Africa",hc:64},{country:"Ecuador",hc:59},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
+  "2/9/26": { total:960,  rows:[ {country:"Mexico",hc:307},{country:"Colombia",hc:140},{country:"Brazil",hc:139},{country:"United States",hc:84},{country:"Peru",hc:75},{country:"South Africa",hc:64},{country:"Ecuador",hc:60},{country:"Philippines",hc:47},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
+  "2/16/26": { total:956,  rows:[ {country:"Mexico",hc:307},{country:"Colombia",hc:141},{country:"Brazil",hc:135},{country:"United States",hc:84},{country:"Peru",hc:75},{country:"South Africa",hc:63},{country:"Ecuador",hc:58},{country:"Philippines",hc:49},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:3} ]},
+  "2/23/26": { total:958,  rows:[ {country:"Mexico",hc:307},{country:"Colombia",hc:141},{country:"Brazil",hc:136},{country:"United States",hc:84},{country:"Peru",hc:75},{country:"South Africa",hc:62},{country:"Ecuador",hc:58},{country:"Philippines",hc:50},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:4} ]},
+  "3/2/26":  { total:985,  rows:[ {country:"Mexico",hc:315},{country:"Colombia",hc:146},{country:"Brazil",hc:146},{country:"United States",hc:85},{country:"Peru",hc:75},{country:"South Africa",hc:63},{country:"Ecuador",hc:59},{country:"Philippines",hc:51},{country:"Panama",hc:27},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:4} ]},
+  "3/9/26": { total:991,  rows:[ {country:"Mexico",hc:316},{country:"Brazil",hc:150},{country:"Colombia",hc:145},{country:"United States",hc:85},{country:"Peru",hc:76},{country:"South Africa",hc:64},{country:"Ecuador",hc:59},{country:"Philippines",hc:50},{country:"Panama",hc:28},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:4} ]},
+  "3/16/26": { total:1001, rows:[ {country:"Mexico",hc:325},{country:"Brazil",hc:154},{country:"Colombia",hc:144},{country:"United States",hc:84},{country:"Peru",hc:77},{country:"South Africa",hc:62},{country:"Ecuador",hc:59},{country:"Philippines",hc:49},{country:"Panama",hc:29},{country:"Indonesia",hc:8},{country:"China",hc:6},{country:"India",hc:4} ]},
+  "3/23/26": { total:1006, rows:[ {country:"Mexico",hc:324},{country:"Brazil",hc:153},{country:"Colombia",hc:146},{country:"United States",hc:85},{country:"Peru",hc:77},{country:"South Africa",hc:62},{country:"Ecuador",hc:60},{country:"Philippines",hc:51},{country:"Panama",hc:28},{country:"Indonesia",hc:8},{country:"China",hc:7},{country:"India",hc:5} ]},
+  "3/30/26": { total:1001, rows:[ {country:"Mexico",hc:322},{country:"Brazil",hc:149},{country:"Colombia",hc:147},{country:"United States",hc:85},{country:"Peru",hc:78},{country:"South Africa",hc:61},{country:"Ecuador",hc:60},{country:"Philippines",hc:51},{country:"Panama",hc:28},{country:"Indonesia",hc:8},{country:"China",hc:7},{country:"India",hc:5} ]},
+  "4/6/26":  { total:1018, rows:[ {country:"Mexico",hc:329},{country:"Brazil",hc:155},{country:"Colombia",hc:149},{country:"United States",hc:87},{country:"Peru",hc:78},{country:"South Africa",hc:61},{country:"Ecuador",hc:60},{country:"Philippines",hc:50},{country:"Panama",hc:28},{country:"Indonesia",hc:9},{country:"China",hc:7},{country:"India",hc:5} ]},
+  "4/13/26": { total:1038, rows:[ {country:"Mexico",hc:333},{country:"Brazil",hc:157},{country:"Colombia",hc:151},{country:"United States",hc:87},{country:"Peru",hc:78},{country:"South Africa",hc:62},{country:"Ecuador",hc:61},{country:"Philippines",hc:60},{country:"Panama",hc:28},{country:"Indonesia",hc:9},{country:"China",hc:7},{country:"India",hc:5} ]},
+  "4/20/26": { total:1045, rows:[ {country:"Mexico",hc:335},{country:"Brazil",hc:159},{country:"Colombia",hc:154},{country:"United States",hc:88},{country:"Peru",hc:79},{country:"South Africa",hc:62},{country:"Ecuador",hc:60},{country:"Philippines",hc:60},{country:"Panama",hc:27},{country:"Indonesia",hc:9},{country:"China",hc:7},{country:"India",hc:5} ]},
+  "4/27/26": { total:1039, rows:[ {country:"Mexico",hc:332},{country:"Brazil",hc:155},{country:"Colombia",hc:154},{country:"United States",hc:87},{country:"Peru",hc:80},{country:"South Africa",hc:62},{country:"Ecuador",hc:60},{country:"Philippines",hc:60},{country:"Panama",hc:27},{country:"Indonesia",hc:10},{country:"China",hc:7},{country:"India",hc:5} ]},
+  "5/4/26":  { total:1045, rows:[ {country:"Mexico",hc:328},{country:"Brazil",hc:158},{country:"Colombia",hc:156},{country:"United States",hc:89},{country:"Peru",hc:82},{country:"South Africa",hc:62},{country:"Ecuador",hc:61},{country:"Philippines",hc:59},{country:"Panama",hc:26},{country:"Indonesia",hc:12},{country:"China",hc:7},{country:"India",hc:5} ]},
+};
+
+const COUNTRY_COLORS = {
+  "Mexico":        "#f97316",
+  "Brazil":        "#22c55e",
+  "Colombia":      "#eab308",
+  "United States": "#3b82f6",
+  "Peru":          "#8b5cf6",
+  "South Africa":  "#ec4899",
+  "Philippines":   "#06b6d4",
+  "Ecuador":       "#84cc16",
+  "Panama":        "#f43f5e",
+  "Indonesia":     "#14b8a6",
+  "China":         "#f59e0b",
+  "India":         "#6366f1",
 };
 
 function renderHCCountryBars() {
@@ -1139,30 +1180,28 @@ function renderHCCountryBars() {
   const sel = document.getElementById("country-month-sel");
   const idx = sel ? parseInt(sel.value) : 12;
   const monthLabel = HC_MONTHLY[idx] ? HC_MONTHLY[idx].label : "May 26";
-  // Build rows from HC_BY_COUNTRY at this index, sorted descending
   const rows = Object.entries(HC_BY_COUNTRY)
     .map(([country, arr]) => ({ country, hc: arr[idx] || 0 }))
     .filter(r => r.hc > 0)
     .sort((a, b) => b.hc - a.hc);
   const total = rows.reduce((s, r) => s + r.hc, 0);
   const max = Math.max(...rows.map(r => r.hc));
-  // Denominator for %: total HC of previous month (or current if no previous)
   const prevTotal = idx > 0 ? HC_MONTHLY[idx - 1].hc : total;
   const prevLabel = idx > 0 ? HC_MONTHLY[idx - 1].label : monthLabel;
   el.innerHTML = rows.map(r => {
     const pct = (r.hc / max * 100).toFixed(1);
     const sharePct = (r.hc / prevTotal * 100).toFixed(1);
-    return `<div style="display:grid;grid-template-columns:100px 1fr 36px 36px;align-items:center;gap:8px;margin-bottom:5px;">
+    const color = COUNTRY_COLORS[r.country] || "#94a3b8";
+    return `<div style="display:grid;grid-template-columns:90px 1fr 36px 36px;align-items:center;gap:8px;margin-bottom:5px;">
       <span style="font-size:11px;color:var(--text-secondary);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${r.country}</span>
       <div style="height:9px;background:var(--bg);border-radius:99px;overflow:hidden;">
-        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,#3b82f6,#6366f1);border-radius:99px;transition:width 0.5s ease;"></div>
+        <div style="height:100%;width:${pct}%;background:${color};border-radius:99px;opacity:0.85;transition:width 0.5s ease;"></div>
       </div>
       <span style="font-size:11px;font-weight:700;color:var(--text-primary);text-align:right;">${r.hc}</span>
       <span style="font-size:10px;color:var(--text-muted);text-align:right;">${sharePct}%</span>
     </div>`;
   }).join('');
-  // total row
-  el.innerHTML += `<div style="display:grid;grid-template-columns:100px 1fr 36px 36px;align-items:center;gap:8px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);">
+  el.innerHTML += `<div style="display:grid;grid-template-columns:90px 1fr 36px 36px;align-items:center;gap:8px;margin-top:6px;padding-top:6px;border-top:1px solid var(--border);">
     <span style="font-size:11px;font-weight:700;color:var(--text-primary);text-align:right;">Total</span>
     <div></div>
     <span style="font-size:12px;font-weight:800;color:var(--blue);text-align:right;">${total.toLocaleString()}</span>
@@ -1175,372 +1214,405 @@ function renderHCCountryBars() {
 // ─── WEEKLY MOVEMENTS (Bajas & Ingresos) ─────────────────────────────────────
 // reason keys: "Resignation" | "Performance" | "End of Contract"
 const WEEKLY_MOV = {
-  "1/6/26": {
-    bajas: [
-      { country:"United States", name:"Prashant Bhatt",    title:"",                              level:"",              reason:"Resignation" },
-      { country:"Mexico",        name:"Fernanda Lazcano",  title:"CX Rep",                        level:"IC I (1a-1c)",  reason:"Resignation" },
+  "1/5/26": {
+        bajas: [
+      { country:"Brazil", title:"Territory Manager", dept:"Sales", termType:"Involuntary", reason:"Performance", regrettable:"N/A" },
+      { country:"Brazil", title:"Business Development Manager", dept:"Sales", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
+      { country:"Brazil", title:"Collections Supervisor", dept:"Global Collections", termType:"Voluntary", reason:"Received a job offer", regrettable:"Regrettable" },
+      { country:"Brazil", title:"Business Development Manager", dept:"Sales", termType:"Voluntary", reason:"Received a job offer", regrettable:"Regrettable" },
+      { country:"Peru", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Misconduct", regrettable:"Non-Regrettable" },
+      { country:"Peru", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Misconduct", regrettable:"Non-Regrettable" },
+      { country:"Peru", title:"Territory Manager", dept:"Sales", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"United States", title:"Senior Product Manager", dept:"Product and UX", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Gonzalo Heguille",       title:"Commercial Director",                            level:"IC V (5a-5c)"  },
-      { country:"Mexico",        name:"Juan Pablo Tellería",    title:"Corp. Development Sr Manager",                   level:"IC IV (4a-4c)" },
-      { country:"Mexico",        name:"Ricardo Carro",          title:"Senior Analytics Manager",                       level:"IC IV (4a-4c)" },
-      { country:"Mexico",        name:"Haydee Bueno",           title:"Product Designer",                               level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Alejandra Romero",       title:"Software Engineer",                              level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Georgina Lopez",         title:"Merchant Ops Analyst",                           level:"IC II (2a-2c)" },
-      { country:"Mexico",        name:"Paulina Martínez",       title:"Sales Enablement Analyst",                       level:"IC II (2a-2c)" },
-      { country:"Colombia",      name:"Cristian Rey",           title:"Merchant Ops Rep",                               level:"IC I (1a-1c)"  },
-      { country:"South Africa",  name:"Khathu Manyuwa",         title:"Clerk Support Supervisor",                       level:"IC II (2a-2c)" },
-      { country:"Philippines",   name:"Merrick Yap",            title:"Key Account Manager",                            level:"IC III (3a-3c)"},
-      { country:"Indonesia",     name:"Dicky Permana",          title:"CX Rep",                                         level:"IC I (1a-1c)"  },
-      { country:"Indonesia",     name:"Gusti Marthakusuma",     title:"CX Rep",                                         level:"IC I (1a-1c)"  },
-      { country:"Indonesia",     name:"Muhammad Hilmy",         title:"CX Rep",                                         level:"IC I (1a-1c)"  },
+      { country:"Brazil", name:"Julia Arjonas", title:"Office Associate", level:"1b" },
+      { country:"Colombia", name:"Cristian Rey", title:"Merchant Operations Representative", level:"1a" },
+      { country:"Indonesia", name:"Dicky Hilmi Permana", title:"Customer Support Representative", level:"1c" },
+      { country:"Indonesia", name:"Gusti Arya", title:"Customer Support Representative", level:"1c" },
+      { country:"Indonesia", name:"Muhammad Hilmy", title:"Customer Support Representative", level:"1c" },
+      { country:"Mexico", name:"Alejandra Juárez", title:"Software Engineer", level:"3a" },
+      { country:"Mexico", name:"Georgina Ayala", title:"Merchant Operations Analyst", level:"2c" },
+      { country:"Mexico", name:"Gonzalo Heguille", title:"Sales Director", level:"5a" },
+      { country:"Mexico", name:"Haydee Bueno", title:"UX Designer", level:"3b" },
+      { country:"Mexico", name:"Juan Pablo Telleria", title:"Strategy & Corporate Development Senior Manager", level:"4b" },
+      { country:"Mexico", name:"Michelle Acosta", title:"Associate Machine Learning Engineer", level:"2b" },
+      { country:"Mexico", name:"Pablo Oria", title:"Strategy & Performance Manager", level:"3a" },
+      { country:"Mexico", name:"Paulina Martínez", title:"Sales Enablement Analyst", level:"2b" },
+      { country:"Mexico", name:"Ricardo Carro", title:"Senior Analytics Manager", level:"4a" },
+      { country:"Philippines", name:"Merrick Yap", title:"Key Account Manager", level:"3a" },
+      { country:"South Africa", name:"Khathu Manyuwa", title:"Clerk Support Supervisor", level:"2b" },
     ]
   },
-  "1/13/26": {
-    bajas: [
-      { country:"Colombia",      name:"Yeison Beltran",    title:"Sales Rep",              level:"IC I (1a-1c)",  reason:"Performance"     },
-      { country:"Colombia",      name:"Alvaro Tovar",      title:"ERP Systems Director",   level:"IC V (5a-5c)",  reason:"End of Contract" },
+  "1/12/26": {
+        bajas: [
+      { country:"Colombia", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Colombia", title:"ERP Systems Director", dept:"Financial Platforms", termType:"Involuntary", reason:"No pasa Periodo de Prueba", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"IT Specialist", dept:"Core Engineering", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
+      { country:"Panama", title:"National Sales Manager", dept:"Sales", termType:"Involuntary", reason:"Misconduct", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"Gustavo Souza",     title:"Corporate Counsel",      level:""              },
-      { country:"Brazil",        name:"Aline Patricio",    title:"Accounting Manager",     level:""              },
-      { country:"Peru",          name:"Ignacio Lizarraga", title:"Legal & Compliance Analyst", level:""          },
-      { country:"Ecuador",       name:"Luis Lucero",       title:"Legal & Compliance Manager", level:""          },
-      { country:"Philippines",   name:"Jaeson Coronica",   title:"Regional Sales Manager", level:"IC III (3a-3c)"},
-      { country:"Philippines",   name:"Gian Chavez",       title:"Territory Sales Manager",level:"IC II (2a-2c)" },
+      { country:"Brazil", name:"Aline Patricio", title:"Accounting Manager", level:"3b" },
+      { country:"Brazil", name:"Cecília Lima", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Evelyn Reimann", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Fernanda Araujo", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Gustavo Campos", title:"Corporate Counsel", level:"3a" },
+      { country:"Brazil", name:"Héllen Martins", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Paula Melo", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Tereza Torres", title:"Sales Representative", level:"1a" },
+      { country:"Ecuador", name:"Luis Lucero", title:"Legal and Compliance Manager", level:"3a" },
+      { country:"Peru", name:"Ignacio Lizarraga", title:"Legal and Compliance Analyst", level:"2b" },
+      { country:"Philippines", name:"Gian Chavez", title:"Territory Manager", level:"2c" },
+      { country:"Philippines", name:"Jaeson Coronica", title:"Regional Sales Manager", level:"3a" },
     ]
   },
-  "1/20/26": {
-    bajas: [
+  "1/19/26": {
+        bajas: [
+      { country:"Colombia", title:"Key Account Manager", dept:"Sales", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Philippines", title:"Customer Support Representative", dept:"Global General Support", termType:"Involuntary", reason:"Reduction of work", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Carmen Hdz",        title:"Tax Manager",            level:"IC IV (4a-4c)" },
-      { country:"Mexico",        name:"Edgar Barragan",    title:"Merchant Ops Manager",   level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Victor Núñez",      title:"Merchant Ops Manager",   level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Marco Ramírez",     title:"Ecommerce Manager",      level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Irene Dimas",       title:"Office Coordinator",     level:"IC II (2a-2c)" },
-      { country:"Indonesia",     name:"Martin Darmawan",   title:"CX Supervisor",          level:"IC II (2a-2c)" },
+      { country:"Mexico", name:"Carmen Hernández Elvira", title:"Senior Tax Manager", level:"4b" },
+      { country:"Mexico", name:"Edgar Barragán", title:"Merchant Operations Manager", level:"3a" },
+      { country:"Mexico", name:"Jonathan Soriano", title:"Clerk Support Supervisor", level:"2a" },
+      { country:"Mexico", name:"Marco Ramírez", title:"Ecommerce Operations Manager", level:"3b" },
+      { country:"Mexico", name:"Victor Nuñez", title:"Merchant Operations Manager", level:"3a" },
     ]
   },
-  "1/27/26": {
-    bajas: [
-      { country:"Colombia",      name:"Aura Torrado",      title:"Key Account Manager",    level:"IC III (3a-3c)", reason:"Performance" },
-      { country:"Mexico",        name:"Iliana Hernández",  title:"Compliance Analyst",     level:"IC II (2a-2c)",  reason:"Resignation" },
-      { country:"Ecuador",       name:"Leonela Camino",    title:"Sales Representative",   level:"IC I (1a-1c)",   reason:"Resignation" },
+  "1/26/26": {
+        bajas: [
+      { country:"Brazil", title:"Tools Optimization Specialist", dept:"Global Tools and Metrics", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
+      { country:"Ecuador", title:"Sales Representative", dept:"Sales", termType:"Voluntary", reason:"Personal", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Compliance Analyst", dept:"Compliance", termType:"Voluntary", reason:"Other employment", regrettable:"Regrettable" },
+    ],
+    ingresos: []
+  },
+  "2/2/26": {
+        bajas: [
+      { country:"Brazil", title:"Territory Manager", dept:"Sales", termType:"Voluntary", reason:"Received a job offer", regrettable:"Regrettable" },
+      { country:"Brazil", title:"Territory Manager", dept:"Sales", termType:"Voluntary", reason:"Other employment", regrettable:"Regrettable" },
+      { country:"Brazil", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Misconduct", regrettable:"Non-Regrettable" },
+      { country:"Colombia", title:"Customer Support Representative", dept:"Global General Support", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Senior HR Analytics & Compensation Manager", dept:"People Operations", termType:"Involuntary", reason:"Dismissal", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Customer Support Representative", dept:"Global General Support", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Key Account Manager", dept:"Sales", termType:"Voluntary", reason:"Other employment", regrettable:"Regrettable" },
     ],
     ingresos: [
+      { country:"Brazil", name:"Thifany Soares", title:"Customer Experience Payments Associate", level:"1a" },
+      { country:"Mexico", name:"Dulce Vallejo", title:"Customer Support Supervisor", level:"2b" },
+      { country:"Mexico", name:"Fhernando Zárate", title:"Lead Development Operations Analyst", level:"2b" },
+      { country:"Mexico", name:"Jonathan Martínez", title:"Marketing Analytics Senior Manager", level:"4a" },
+      { country:"Mexico", name:"Nayeli Ruiz", title:"Lifecycle Marketing Analyst", level:"2b" },
+      { country:"Peru", name:"Carolina Ramirez Verastegui", title:"Sales Manager - Retail", level:"3b" },
+      { country:"Peru", name:"Genaro Fernández", title:"National Sales Manager", level:"3c" },
+      { country:"South Africa", name:"Vuyo Tywabi", title:"Sales Representative", level:"1c" },
     ]
   },
-  "2/3/26": {
-    bajas: [
-      { country:"Colombia",      name:"Jeimy Palacios",    title:"CS Representative",      level:"IC I (1a-1c)",  reason:"Performance" },
-      { country:"Mexico",        name:"Marisol Castro",    title:"Manager",                level:"IC IV (4a-4c)", reason:"Performance" },
-      { country:"Mexico",        name:"Fernando Ojeda",    title:"Manager",                level:"IC III (3a-3c)",reason:"Resignation" },
+  "2/9/26": {
+        bajas: [
+      { country:"Brazil", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Term of probationary contract", regrettable:"Non-Regrettable" },
+      { country:"Brazil", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Term of probationary contract", regrettable:"Non-Regrettable" },
+      { country:"Ecuador", title:"Key Account Lead", dept:"Sales", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Chatbot Optimization Manager", dept:"Global Tools and Metrics", termType:"Voluntary", reason:"Other employment", regrettable:"Non-Regrettable" },
+      { country:"South Africa", title:"Sales Representative", dept:"Sales", termType:"Voluntary", reason:"Relocation", regrettable:"Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Fhernando Sosa",    title:"Operations Specialist",  level:""              },
-      { country:"Mexico",        name:"Nayeli Ruiz",       title:"Marketing Analyst",      level:""              },
-      { country:"Mexico",        name:"Jonathan Martínez", title:"Marketing Analyst",      level:""              },
-      { country:"Brazil",        name:"Thifany",           title:"CX Payments Associate",  level:"IC I (1a-1c)"  },
-      { country:"United States", name:"Jewell Claudio",    title:"Office Coordinator",     level:""              },
-      { country:"South Africa",  name:"Vuyo Tywabi",       title:"Sales Representative",   level:"IC I (1a-1c)"  },
+      { country:"Brazil", name:"André Antunes", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"MAICON MERGEN", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Priscila Santos", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Wagner Marinho", title:"Sales Representative", level:"1a" },
+      { country:"Ecuador", name:"Jeferson Ganchala", title:"Sales Representative", level:"1a" },
+      { country:"Mexico", name:"Ricardo Cortes", title:"Collections Team Lead", level:"2a" },
     ]
   },
-  "2/10/26": {
-    bajas: [
-      { country:"Ecuador",       name:"Nicole Paz",        title:"Key Account Lead",       level:"",              reason:"Resignation" },
-      { country:"South Africa",  name:"Christopher de Wit",title:"Sales Representative",   level:"IC I (1a-1c)",  reason:"Resignation" },
+  "2/16/26": {
+        bajas: [
+      { country:"Colombia", title:"Head of Legal", dept:"Legal", termType:"Involuntary", reason:"No longer needed", regrettable:"Non-Regrettable" },
+      { country:"Ecuador", title:"Promoter Manager", dept:"Sales", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"South Africa", title:"Business Development Representative", dept:"Sales", termType:"Voluntary", reason:"Other employment", regrettable:"Regrettable" },
     ],
     ingresos: [
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",   level:"IC I (1a-1c)"  },
-      { country:"Ecuador",       name:"Jeferson Ganchala", title:"Sales Representative",   level:""              },
+      { country:"Mexico", name:"Claudio Cevallos", title:"Operations Manager - Credit Card/Credit Line", level:"3a" },
+      { country:"Mexico", name:"Edgar Cruz", title:"Fraud Operations Representative - PayJoy Card", level:"1b" },
+      { country:"Mexico", name:"Edgar Mariscal Gallegos", title:"Marketing CRM & Lifecycle Senior Manager", level:"4a" },
+      { country:"Philippines", name:"Aica Ramilo", title:"Sales Territory Manager - Rizal", level:"2c" },
+      { country:"Philippines", name:"Pats Patoc", title:"Sales Trainer", level:"2b" },
     ]
   },
-  "2/17/26": {
-    bajas: [
-      { country:"Colombia",      name:"TBC",               title:"Director",               level:"IC V (5a-5c)",  reason:"Performance"     },
-      { country:"Colombia",      name:"Daniel Alarcón",    title:"Head Of Legal",          level:"IC V (5a-5c)",  reason:"End of Contract" },
-      { country:"South Africa",  name:"Jerome Jacobs",     title:"Business Development Rep",level:"IC I (1a-1c)", reason:"Resignation"     },
+  "2/23/26": {
+        bajas: [
+      { country:"Mexico", title:"Merchant Operations Senior Manager", dept:"Merchant Operations", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Collections Representative", dept:"Global Collections", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Claudio Cevallos",  title:"Operations Manager",         level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Edgar Mariscal",    title:"Senior CRM & Lifecycle Mgr", level:"IC IV (4a-4c)" },
-      { country:"Mexico",        name:"Edgar Cruz",        title:"Fraud Operations Rep",        level:"IC I (1a-1c)"  },
-      { country:"Colombia",      name:"David Farias",      title:"Sales Rep",                   level:"IC I (1a-1c)"  },
-      { country:"Colombia",      name:"Johana Enciso",     title:"Sales Enablement Analyst",    level:"IC II (2a-2c)" },
-      { country:"Ecuador",       name:"Boris Cornejo",     title:"Promoter Manager",            level:"IC II (2a-2c)" },
-      { country:"Philippines",   name:"Janinalyn Patoc",   title:"Sales Trainer",               level:"IC II (2a-2c)" },
-      { country:"Philippines",   name:"Aica Ramilo",       title:"Territory Sales Manager",     level:"IC II (2a-2c)" },
+      { country:"Brazil", name:"Martina Noviel", title:"Collections Supervisor", level:"2b" },
+      { country:"Colombia", name:"Camilo González", title:"Training Associate", level:"1c" },
+      { country:"India", name:"Sumit Lohariwala", title:"Finance Senior Manager", level:"4a" },
+      { country:"Mexico", name:"Ariadna Albarran", title:"Marketing Analytics Manager - 1P Ecommerce", level:"3b" },
+      { country:"Mexico", name:"Diego Tellez", title:"Fraud Operations Representative - PayJoy Card", level:"1a" },
+      { country:"Mexico", name:"Ivonne Sánchez", title:"Merchant Operations Analyst", level:"1c" },
     ]
   },
-  "2/24/26": {
-    bajas: [
-      { country:"Mexico",        name:"",                  title:"Collections Rep",        level:"IC I (1a-1c)",  reason:"Performance" },
-      { country:"Mexico",        name:"Ana Quinto",        title:"Merchant Ops Analyst",   level:"IC IV (4a-4c)", reason:"Performance" },
+  "3/2/26": {
+        bajas: [
+      { country:"Mexico", title:"Fraud Strategy Director", dept:"Fraud Operations", termType:"Voluntary", reason:"Other employment", regrettable:"Regrettable" },
+      { country:"Peru", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Personal", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Ariadana Albarrán", title:"Marketing Analytics Manager",        level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Diego Carmona",     title:"Fraud Operations Representative",     level:"IC I (1a-1c)"  },
-      { country:"Mexico",        name:"Christian Gallardo",title:"Customer Support Representative",     level:"IC I (1a-1c)"  },
-      { country:"Mexico",        name:"Sarai Salinas",     title:"Validation Support Representative",   level:"IC I (1a-1c)"  },
-      { country:"Colombia",      name:"Camilo Gonzalez",   title:"Training Associate",                  level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"Ludmila Bispo",     title:"Retail Development Manager",          level:"IC III (3a-3c)"},
-      { country:"Brazil",        name:"Martina Noviel",    title:"Collections Supervisor",              level:"IC II (2a-2c)" },
-      { country:"United States", name:"Thia Angelo",       title:"Software Test Engineer",              level:""              },
-      { country:"India",         name:"Sumit Lohariwala",  title:"Finance Senior Manager",              level:"IC IV (4a-4c)" },
+      { country:"Brazil", name:"Bruna Magalhães", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Bruno Silva", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Daise Laura Santos", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Gabriel Mendes", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"João Lima", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Luide Martins", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Matheus Camilo", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Patricia Ribeiro", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Vinícius Assis", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Yan Basso", title:"Sales Representative", level:"1a" },
+      { country:"Colombia", name:"Andres Morales", title:"Senior MarTech Engineer", level:"4a" },
+      { country:"Colombia", name:"Esteban Parra", title:"Key Account Representative", level:"1a" },
+      { country:"Colombia", name:"Johan Sebastian García", title:"IT Support", level:"2a" },
+      { country:"Colombia", name:"Jose Bedoya", title:"Sales Representative", level:"1b" },
+      { country:"Ecuador", name:"Maria Emillia Suarez", title:"Key Account Executive", level:"2a" },
+      { country:"Mexico", name:"Alexis Tepale", title:"Machine Learning Engineer", level:"3a" },
+      { country:"Mexico", name:"Amairani Espinosa", title:"Key Account Representative", level:"1a" },
+      { country:"Mexico", name:"Hillary Neiel Silva Osorio", title:"Retail Operations Analyst - Supply Chain", level:"1c" },
+      { country:"Mexico", name:"Hugo Martínez", title:"Retail Operations Senior Manager", level:"4a" },
+      { country:"Philippines", name:"Carl Pabustan", title:"Human Resources Associate - Global Operations", level:"1b" },
+      { country:"Philippines", name:"Jen Orbillo", title:"Office Manager", level:"3a" },
+      { country:"South Africa", name:"Suzanné Coetzer", title:"Merchant Operations Analyst", level:"2a" },
     ]
   },
-  "3/3/26": {
-    bajas: [
-      { country:"Mexico",        name:"Ric Allen",         title:"Fraud Strategy Director",level:"IC V (5a-5c)",  reason:"Resignation" },
+  "3/9/26": {
+        bajas: [
+      { country:"Brazil", title:"Merchant Operations Analyst", dept:"Merchant Operations", termType:"Voluntary", reason:"Personal", regrettable:"Regrettable" },
+      { country:"Colombia", title:"Sales Representative", dept:"Sales", termType:"Voluntary", reason:"Received a job offer", regrettable:"Regrettable" },
+      { country:"Mexico", title:"Controller", dept:"Accounting", termType:"Voluntary", reason:"Other employment", regrettable:"Regrettable" },
+      { country:"Mexico", title:"Key Account Senior Manager", dept:"Sales", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Philippines", title:"Sales Representative", dept:"Sales", termType:"Voluntary", reason:"Received a job offer", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Amairani Espinosa", title:"Key Account Rep",            level:"IC I (1a-1c)"  },
-      { country:"Mexico",        name:"Hugo Martinez",     title:"Sr. Retail Manager Kioskos", level:"IC IV (4a-4c)" },
-      { country:"Mexico",        name:"Daniel Olivares",   title:"IT Sr. Specialist",          level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Alexis Tepale",     title:"Machine Learning Engineer",  level:"IC III (3a-3c)"},
-      { country:"Colombia",      name:"Andres Morales",    title:"Sr. Software Marketing Tech",level:"IC IV (4a-4c)" },
-      { country:"Colombia",      name:"Johan Garcia",      title:"IT Analyst",                 level:"IC II (2a-2c)" },
-      { country:"Colombia",      name:"Jose Bedoya",       title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Colombia",      name:"Esteban Parra",     title:"Key Account Representative", level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Marketing Intern",           level:"IC I (1a-1c)"  },
-      { country:"Ecuador",       name:"María Emilia Suarez",title:"Key Account Executive",    level:"IC II (2a-2c)" },
-      { country:"South Africa",  name:"Suzanne Coetzer",   title:"Merchant Operations Analyst",level:"IC II (2a-2c)"},
-      { country:"Philippines",   name:"Jen Orbillo",       title:"Office Manager",             level:"IC III (3a-3c)"},
-      { country:"Philippines",   name:"Carl Pabustan",     title:"HR Associate",               level:"IC I (1a-1c)"  },
+      { country:"Mexico", name:"Alin Ramírez", title:"Key Account Manager", level:"3a" },
+      { country:"Mexico", name:"Humberto Peña", title:"Budgeting & Cost Control Analyst", level:"2a" },
+      { country:"Mexico", name:"Julio Senteno", title:"Accounting Manager", level:"3a" },
+      { country:"Mexico", name:"Rafa Sainz", title:"Senior Product Manager, Credit Line and Card", level:"4a" },
+      { country:"Mexico", name:"Ángel Martinez", title:"Customer Support Representative", level:"1b" },
+      { country:"Panama", name:"Daniel Urrego", title:"Legal and Compliance Analyst", level:"2a" },
+      { country:"Peru", name:"Mayte Salazar", title:"Growth Manager", level:"3a" },
     ]
   },
-  "3/10/26": {
-    bajas: [
-      { country:"Colombia",      name:"Daniel Vanegas",    title:"Sales Representative",   level:"IC I (1a-1c)",  reason:"Resignation" },
-      { country:"Philippines",   name:"Edrin Blancaflor",  title:"Sales Representative",   level:"IC I (1a-1c)",  reason:"Resignation" },
-      { country:"Mexico",        name:"Eduardo Mendez",    title:"Controller",             level:"IC V (5a-5c)",  reason:"Resignation" },
-      { country:"Mexico",        name:"Claudia Reider",    title:"Sr. KAM",                level:"IC IV (4a-4c)", reason:"Performance"  },
-      { country:"United States", name:"Mrinalini Shah",    title:"Senior Software Engineer",level:"IC IV (4a-4c)",reason:"Resignation" },
-      { country:"South Africa",  name:"Bokang Mohale",     title:"Merchant Operations Rep", level:"IC I (1a-1c)", reason:"Resignation"  },
+  "3/16/26": {
+        bajas: [
+      { country:"Brazil", title:"Compliance Analyst", dept:"Compliance", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
+      { country:"Colombia", title:"Partnership Insights Analyst", dept:"Lock", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
+      { country:"Colombia", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"No pasa Periodo de Prueba", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Senior IT Specialist", dept:"Core Engineering", termType:"Voluntary", reason:"Received a job offer", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Customer Support Representative", dept:"Global General Support", termType:"Voluntary", reason:"Received a job offer", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Validation Support Representative", dept:"Global Clerk Support", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Philippines", title:"Merchant Operations Analyst", dept:"Merchant Operations", termType:"Voluntary", reason:"Received a job offer", regrettable:"Non-Regrettable" },
+      { country:"South Africa", title:"Promoter Manager", dept:"Sales", termType:"Involuntary", reason:"Dismissal", regrettable:"Non-Regrettable" },
+      { country:"United States", title:"Senior Software Engineer", dept:"Core Engineering", termType:"Involuntary", reason:"Restructure", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Julio Senteno",     title:"Accountant",             level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Rafael Sainz",      title:"Sr. Product Manager",    level:"IC IV (4a-4c)" },
-      { country:"Mexico",        name:"Alin Ramirez",      title:"KAM",                    level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Angel Eduardo",     title:"Collections Rep",        level:"IC I (1a-1c)"  },
-      { country:"Peru",          name:"Mayte Salazar",     title:"Growth Manager",         level:""              },
-      { country:"South Africa",  name:"Itumeleng Malatji", title:"Business Development Rep",level:"IC I (1a-1c)" },
-      { country:"Panama",        name:"Daniel Urrego",     title:"L&C Analyst",            level:""              },
+      { country:"Brazil", name:"Andreia Rosa", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Elvis Lenz", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Leticia Oliveira", title:"Payroll Analyst", level:"2a" },
+      { country:"Brazil", name:"Luana Faria", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Rhudy Moreira", title:"Sales Representative", level:"1a" },
+      { country:"Colombia", name:"Nicolas Martinez", title:"Financial Analyst", level:"2a" },
+      { country:"Mexico", name:"Atzin Vargas", title:"Talent Operations Specialist", level:"3a" },
+      { country:"Mexico", name:"Eloy Gallegos", title:"Key Account Senior Manager - Long Tail", level:"3a" },
+      { country:"Mexico", name:"Juan Carlos C Hajj", title:"Strategy and Performance Senior Analyst", level:"2b" },
+      { country:"Mexico", name:"Robespierre Garcia", title:"Specialized Support Senior Manager", level:"4b" },
+      { country:"Mexico", name:"Sara Sancliment", title:"Merchant Operations Analyst", level:"2b" },
+      { country:"Panama", name:"Leo Ramirez", title:"Commercial Manager", level:"3b" },
+      { country:"Peru", name:"Maykol Mujica", title:"Territory Manager", level:"2b" },
+      { country:"Philippines", name:"Gab Bartolabac", title:"Sales Control Tower Intern", level:"Intern" },
+      { country:"Philippines", name:"Jeona Finella Abundo", title:"Sales Control Tower Intern", level:"Intern" },
+      { country:"United States", name:"David Pisoni", title:"Staff Software Engineer", level:"5b" },
     ]
   },
-  "3/17/26": {
-    bajas: [
-      { country:"United States", name:"Mrinalini Shah",    title:"Senior Software Engineer",level:"IC IV (4a-4c)", reason:"Resignation"     },
-      { country:"Colombia",      name:"Fernando Vernaza",  title:"Partnership Insights Analyst",level:"IC II (2a-2c)",reason:"Performance" },
-      { country:"Colombia",      name:"David Farias",      title:"Sales Rep",              level:"IC I (1a-1c)",  reason:"End of Contract" },
-      { country:"Philippines",   name:"Cindy Castro",      title:"Merchant Ops Analyst",   level:"IC II (2a-2c)", reason:"Resignation"     },
-      { country:"South Africa",  name:"Levhuwani Zimba",   title:"Collections Representative",level:"IC I (1a-1c)",reason:"Resignation"   },
+  "3/23/26": {
+        bajas: [
+      { country:"Mexico", title:"Senior Software Engineer", dept:"Core Engineering", termType:"Voluntary", reason:"Received a job offer", regrettable:"Non-Regrettable" },
+      { country:"Panama", title:"Collections Supervisor", dept:"Global Collections", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Atzin Vargas",      title:"People Operations Specialist",   level:""              },
-      { country:"Mexico",        name:"Eloy Gallegos",     title:"Key Account Manager",            level:""              },
-      { country:"Mexico",        name:"Juan Carlos Hajj",  title:"Strategy & Performance Sr Analyst",level:""            },
-      { country:"Mexico",        name:"Raúl Robespierre",  title:"Customer Support Sr Manager",    level:""              },
-      { country:"Mexico",        name:"Mariana Caamaño",   title:"Strategic Insights Sr Manager",  level:""              },
-      { country:"Mexico",        name:"Saraí Sanclement",  title:"Merchant Ops Analyst",           level:"IC I (1a-1c)"  },
-      { country:"Mexico",        name:"Jonathan Ávila",    title:"Merchant Ops Analyst",           level:"IC I (1a-1c)"  },
-      { country:"Mexico",        name:"Ivonne Sánchez",    title:"Merchant Ops Analyst",           level:"IC I (1a-1c)"  },
-      { country:"Mexico",        name:"Humberto Peña",     title:"Merchant Ops Analyst",           level:"IC I (1a-1c)"  },
-      { country:"Mexico",        name:"Neiel Silva",       title:"Merchant Ops Analyst",           level:"IC I (1a-1c)"  },
-      { country:"Colombia",      name:"Nicolas Martinez",  title:"Financial Analyst",              level:"IC II (2a-2c)" },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",           level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",           level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",           level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",           level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Payroll Analyst",                level:"IC II (2a-2c)" },
-      { country:"Peru",          name:"Maykol Mujica",     title:"Territory Manager",              level:"IC II (2a-2c)" },
-      { country:"Panama",        name:"Leo Ramirez",       title:"Commercial Manager",             level:""              },
+      { country:"China", name:"Yuri Zhao", title:"Software Engineer - Security Test", level:"3a" },
+      { country:"Colombia", name:"Andrés Acosta", title:"Key Account Manager", level:"3b" },
+      { country:"Colombia", name:"Michelle Gutierrez", title:"Sales Representative", level:"1c" },
+      { country:"Ecuador", name:"Adrian Bravo", title:"Sales Representative", level:"1a" },
+      { country:"India", name:"Anuj Saraf", title:"Head of Partnership", level:"4c" },
+      { country:"Indonesia", name:"Tamara Yulindra", title:"Human Resources Business Partner", level:"3a" },
+      { country:"Mexico", name:"Alejandro Arias", title:"Sr Compensation and People Ops Analyst", level:"4a" },
+      { country:"Mexico", name:"Estefanía Herrera", title:"People Operations Specialist", level:"3b" },
+      { country:"Mexico", name:"Kate Santivanez", title:"Technical Support Analyst", level:"2b" },
+      { country:"Philippines", name:"Leo Acid", title:"Sales Representative", level:"1b" },
     ]
   },
-  "3/24/26": {
-    bajas: [
-      { country:"Mexico",        name:"Daniel Olivares",   title:"Sr. IT Specialist",      level:"IC III (3a-3c)", reason:"Resignation" },
-      { country:"Mexico",        name:"Diego Rochin",      title:"Software Engineer",      level:"IC IV (4a-4c)",  reason:"Resignation" },
-      { country:"Brazil",        name:"",                  title:"Compliance Analyst",     level:"IC II (2a-2c)",  reason:"Resignation" },
-      { country:"Panama",        name:"Yarisbeth Escobar", title:"Collections Supervisor", level:"IC I (1a-1c)",   reason:"Resignation" },
-      { country:"Indonesia",     name:"Martin Darmawan",   title:"CX Supervisor",          level:"IC II (2a-2c)",  reason:"Resignation" },
+  "3/30/26": {
+        bajas: [
+      { country:"Mexico", title:"Senior Product Manager - Card Partnerships", dept:"Product and UX", termType:"Involuntary", reason:"No pasa Periodo de Prueba", regrettable:"Non-Regrettable" },
+      { country:"Peru", title:"Legal & Compliance Manager", dept:"Legal", termType:"Voluntary", reason:"Other employment", regrettable:"Regrettable" },
+      { country:"South Africa", title:"Merchant Operations Representative", dept:"Merchant Operations", termType:"Involuntary", reason:"Misconduct", regrettable:"Non-Regrettable" },
+      { country:"South Africa", title:"Collections Representative", dept:"Global Collections", termType:"Involuntary", reason:"RIF", regrettable:"N/A" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Estefanía Herrera", title:"People Operations Specialist",       level:""              },
-      { country:"Mexico",        name:"Alejandro Arias",   title:"Sr Compensation & People Ops Analyst",level:""             },
-      { country:"Colombia",      name:"Andres Acosta",     title:"KAM",                                level:"IC III (3a-3c)"},
-      { country:"Colombia",      name:"Michelle Gutierrez",title:"Sales Rep",                          level:"IC I (1a-1c)"  },
-      { country:"United States", name:"David Pisoni",      title:"Staff Software Engineer",            level:"IC IV (4a-4c)" },
-      { country:"Ecuador",       name:"Adrian Bravo",      title:"Sales Representative",               level:""              },
-      { country:"Philippines",   name:"Crystal Ungoco",    title:"Sales Representative",               level:"IC I (1a-1c)"  },
-      { country:"Philippines",   name:"Leonil Acid",       title:"Sales Representative",               level:"IC I (1a-1c)"  },
-      { country:"China",         name:"Yuri Zhao",         title:"Software Engineer",                  level:"IC III (3a-3c)"},
-      { country:"Indonesia",     name:"Tamara Yulindra",   title:"HRBP",                               level:""              },
+      { country:"Colombia", name:"Paola Moreno", title:"Talent Acquisition Specialist", level:"2a" },
+      { country:"Mexico", name:"Ileana Aldama", title:"Senior Software Engineer", level:"4a" },
+      { country:"Mexico", name:"Roxana André", title:"Talent Acquisition Partner", level:"3a" },
+      { country:"Peru", name:"Angiarelly Ivonne", title:"Clerk Support Representative", level:"1b" },
+      { country:"Peru", name:"Talía Montero", title:"Marketing Manager", level:"3a" },
+      { country:"United States", name:"Minal Mehta", title:"Talent Acquisition Partner (Engineering & Product)", level:"4b" },
+      { country:"United States", name:"Neal Reiter", title:"Principal Product Manager", level:"5b" },
     ]
   },
-  "3/31/26": {
-    bajas: [
-      { country:"Philippines",   name:"Dominic Mapagu",    title:"Collections Representative",level:"IC I (1a-1c)", reason:"Resignation" },
-      { country:"Mexico",        name:"César Sosa",         title:"Sr. Product Manager",      level:"IC V (5a-5c)", reason:"Performance" },
+  "4/6/26": {
+        bajas: [
+      { country:"Brazil", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Misconduct", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Key Account Manager", dept:"Sales", termType:"Voluntary", reason:"Other employment", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Senior Software Engineer", dept:"Core Engineering", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Ileana Aldama",     title:"Software Engineer",          level:"IC IV (4a-4c)" },
-      { country:"Mexico",        name:"Roxana André",      title:"TA Partner",                 level:"IC III (3a-3c)"},
-      { country:"Colombia",      name:"Paola Moreno",      title:"TA Specialist",              level:"IC II (2a-2c)" },
-      { country:"United States", name:"Minal Mehta",       title:"Talent Acquisition Partner", level:""              },
-      { country:"United States", name:"Neal Reiter",       title:"Principal Product Manager",  level:"IC IV (4a-4c)" },
-      { country:"Peru",          name:"Talia Montero",     title:"Marketing Manager",          level:"IC III (3a-3c)"},
-      { country:"Peru",          name:"Angiarelly Yupanqui",title:"Clerk Support Representative",level:"IC I (1a-1c)"},
+      { country:"Brazil", name:"Mariana Aguiar", title:"Business Analyst", level:"2a" },
+      { country:"Brazil", name:"Pedro Silva", title:"Technical Support Analyst", level:"2a" },
+      { country:"Colombia", name:"Jose Madera", title:"Director of Customer Growth", level:"5b" },
+      { country:"Colombia", name:"Sebastian Bautista", title:"Senior Software Engineer - Consumer Engagement", level:"4b" },
+      { country:"Mexico", name:"Brandon Avila", title:"Collections Representative", level:"1a" },
+      { country:"Mexico", name:"Enrique Morales", title:"Commercial Processes Manager", level:"3b" },
+      { country:"Mexico", name:"Iván Canales", title:"Chief Revenue Officer", level:"E" },
+      { country:"Mexico", name:"Mariana Ramirez", title:"Marketing CRM & Lifecycle Analyst", level:"2a" },
     ]
   },
-  "4/7/26": {
-    bajas: [
-      { country:"Peru",          name:"Angela Valdivia",   title:"Legal Compliance Manager",  level:"",              reason:"Resignation" },
-      { country:"Mexico",        name:"Ricardo Rosas",     title:"KAM",                       level:"IC III (3a-3c)", reason:"Resignation" },
-      { country:"Mexico",        name:"Logan Lugo",        title:"Software Engineer",          level:"IC IV (4a-4c)", reason:"Performance"  },
+  "4/13/26": {
+        bajas: [
+      { country:"Brazil", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Misconduct", regrettable:"Non-Regrettable" },
+      { country:"Brazil", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
+      { country:"Indonesia", title:"Customer Support Supervisor", dept:"Global General Support", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Clerk Support Representative", dept:"Global Clerk Support", termType:"Involuntary", reason:"No pasa Periodo de Prueba", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Fraud Analytics Analyst", dept:"Fraud Operations", termType:"Voluntary", reason:"Personal", regrettable:"Regrettable" },
+      { country:"Panama", title:"Sales Representative", dept:"Sales", termType:"Voluntary", reason:"Renuncia", regrettable:"N/A" },
+      { country:"Philippines", title:"Sales Representative", dept:"Sales", termType:"Voluntary", reason:"Personal", regrettable:"Non-Regrettable" },
+      { country:"South Africa", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
+      { country:"United States", title:"Corporate Finance Director", dept:"Finance", termType:"Involuntary", reason:"Work Visa", regrettable:"" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Enrique Morales",   title:"Sales Processes Specialist", level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Mariana Ramirez",   title:"Marketing Analyst",          level:"IC II (2a-2c)" },
-      { country:"Mexico",        name:"Ivan Canales",      title:"CRO",                        level:""              },
-      { country:"Colombia",      name:"Jose Madera",       title:"Director of Customer Growth", level:"IC V (5a-5c)" },
-      { country:"Colombia",      name:"Sebastian Bautista",title:"Sr. Software Engineer",       level:"IC IV (4a-4c)"},
-      { country:"Brazil",        name:"",                  title:"Business Analyst",            level:"IC II (2a-2c)"},
-      { country:"Brazil",        name:"",                  title:"Technical Support Analyst",   level:"IC II (2a-2c)"},
-      { country:"Peru",          name:"Angela Valdivia",   title:"Legal Compliance Manager",    level:""             },
+      { country:"Brazil", name:"Jacques Lane", title:"Business Analyst", level:"2b" },
+      { country:"Brazil", name:"Monise Ferreira", title:"Senior Tax Manager", level:"4a" },
+      { country:"Brazil", name:"Rodrigo Milan", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Rosana Neves", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Vanessa Massaut", title:"Sales Representative", level:"1a" },
+      { country:"Brazil", name:"Zenildo Monteiro", title:"Sales Representative", level:"1a" },
+      { country:"Colombia", name:"Angelica Diaz", title:"Validation Support Representative", level:"1a" },
+      { country:"Colombia", name:"Diego Sotelo", title:"Technical Support Analyst", level:"2b" },
+      { country:"Ecuador", name:"Adrian Duman", title:"Sales Enablement Coordinator", level:"2b" },
+      { country:"Mexico", name:"Alejandro Buenfil", title:"Growth Senior Manager", level:"4b" },
+      { country:"Mexico", name:"Billy Cochran", title:"Treasury Analyst - Back Office", level:"2b" },
+      { country:"Mexico", name:"Felipe Sánchez", title:"Senior Marketing Manager", level:"4a" },
+      { country:"Mexico", name:"Laura Mejia", title:"Performance Marketing Signals Analyst", level:"2a" },
+      { country:"Mexico", name:"Nancy Rojas", title:"Global AP/T&E Manager", level:"3b" },
+      { country:"Peru", name:"Fredi Flores", title:"Clerk Support Representative", level:"1a" },
+      { country:"Peru", name:"Kelly Casas", title:"Clerk Support Representative", level:"1a" },
+      { country:"Philippines", name:"Aljami Mauyag", title:"Sales Representative (Zamboanga)", level:"1b" },
+      { country:"Philippines", name:"Catherine Corpuz", title:"Sales Representative", level:"1b" },
+      { country:"Philippines", name:"Chin Rivera", title:"Sales Representative", level:"1b" },
+      { country:"Philippines", name:"Christopher Malata", title:"Sales Representative", level:"1b" },
+      { country:"Philippines", name:"Dexter Matocyon", title:"Sales Representative", level:"1b" },
+      { country:"Philippines", name:"Justine Dave Cameros", title:"Sales Representative (General Santos)", level:"1b" },
+      { country:"Philippines", name:"King Alabe", title:"Fraud Operations Representative", level:"1b" },
+      { country:"Philippines", name:"Nephi Tejano", title:"Sales Representative", level:"1b" },
+      { country:"Philippines", name:"Tin Arcilla", title:"Sales Representative", level:"1b" },
+      { country:"Philippines", name:"jhanses Pascual", title:"Sales Representative", level:"1b" },
+      { country:"South Africa", name:"Kwandiwe Jama", title:"Fraud Operations Representative", level:"1b" },
     ]
   },
-  "4/14/26": {
-    bajas: [
-      { country:"Mexico",        name:"Kevin Aldama",      title:"KAM",                       level:"IC II (2a-2c)", reason:"Resignation" },
-      { country:"Panama",        name:"Leonardo Pineda",   title:"Sales Representative",       level:"",              reason:"Resignation" },
+  "4/20/26": {
+        bajas: [
+      { country:"Ecuador", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Strategic Insights Senior Manager", dept:"Global Tools and Metrics", termType:"Involuntary", reason:"No pasa Periodo de Prueba", regrettable:"N/A" },
+      { country:"Panama", title:"Sales Representative", dept:"Sales", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Alejandro Buenfil", title:"Sr. Growth Manager",                     level:"IC IV (4a-4c)" },
-      { country:"Mexico",        name:"Nancy Rojas",       title:"Global AP & Travel Expenses Manager",    level:"IC III (3a-3c)"},
-      { country:"Mexico",        name:"Laura López",       title:"Marketing Analyst",                      level:"IC II (2a-2c)" },
-      { country:"Mexico",        name:"Felipe Sánchez",    title:"Senior Marketing Manager",               level:"IC IV (4a-4c)" },
-      { country:"Mexico",        name:"Billy Cochran",     title:"Treasury Analyst",                       level:"IC II (2a-2c)" },
-      { country:"Colombia",      name:"Diego Sotelo",      title:"Technical Support Analyst",              level:"IC II (2a-2c)" },
-      { country:"Colombia",      name:"Angelica Diaz",     title:"Validation Support Rep",                 level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",                   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",                   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sales Representative",                   level:"IC I (1a-1c)"  },
-      { country:"Brazil",        name:"",                  title:"Sr Tax Manager",                         level:"IC IV (4a-4c)" },
-      { country:"Brazil",        name:"",                  title:"Business Analyst",                       level:"IC II (2a-2c)" },
-      { country:"Peru",          name:"Freddi Huatay",     title:"Clerk Support Representative",           level:"IC I (1a-1c)"  },
-      { country:"Peru",          name:"Kelly Casas",       title:"Clerk Support Representative",           level:"IC I (1a-1c)"  },
-      { country:"Ecuador",       name:"Adrian Duman",      title:"Sales Enablement",                       level:""              },
-      { country:"South Africa",  name:"Kwandiwe Jaba",     title:"Fraud Operations Representative",        level:"IC I (1a-1c)"  },
-      { country:"Philippines",   name:"Enrique Alabe III", title:"Fraud Operations Representative",        level:"IC I (1a-1c)"  },
-      { country:"Philippines",   name:"Maria Cristina Arcilla", title:"Sales Representative",             level:"IC I (1a-1c)"  },
-      { country:"Philippines",   name:"Nephi Tejano",      title:"Sales Representative",                   level:"IC I (1a-1c)"  },
-      { country:"Philippines",   name:"Catherine Corpuz",  title:"Sales Representative",                   level:"IC I (1a-1c)"  },
+      { country:"Brazil", name:"Julia Arantes", title:"Legal Intern", level:"1a" },
+      { country:"Brazil", name:"Nayara Santos", title:"Customer Support Supervisor", level:"2a" },
+      { country:"Colombia", name:"Carolina Gomez", title:"Senior Software Engineer - Onboarding", level:"4a" },
+      { country:"Colombia", name:"Julián Peña", title:"Senior Software Engineer - Onboarding", level:"4a" },
+      { country:"Colombia", name:"Melissa Vargas", title:"Senior Software Engineer - Consumer Engagement", level:"4a" },
+      { country:"Mexico", name:"Daniel Cruz", title:"Senior Software Engineer", level:"4a" },
+      { country:"Mexico", name:"Daniel Villaseñor", title:"Risk Analyst", level:"2a" },
+      { country:"Mexico", name:"Daniela Carbajal", title:"Merchant Operations Analyst", level:"2a" },
+      { country:"Mexico", name:"Rubén Sánchez", title:"Validation Support Representative", level:"1a" },
+      { country:"Peru", name:"Jair Sandhaus", title:"Key Account Lead", level:"2b" },
+      { country:"Philippines", name:"Zhara Sangalang", title:"Regional Sales Manager", level:"3a" },
+      { country:"South Africa", name:"Kgopotso Kola", title:"Sales Representative", level:"1b" },
+      { country:"United States", name:"Raemi Gross", title:"Corporate Finance Director", level:"5a" },
     ]
   },
-  "4/21/26": {
-    bajas: [
-      { country:"Philippines",   name:"Crystal Grace Ungoco",title:"Sales Representative", level:"IC I (1a-1c)",  reason:"Performance"     },
-      { country:"Mexico",        name:"Mariana Caamaño",    title:"Strategic Insights Sr Manager",level:"IC IV (4a-4c)",reason:"End of Contract"},
-      { country:"Ecuador",       name:"Byron Salgado",      title:"Sales Representative",  level:"IC I (1a-1c)",  reason:"Resignation"     },
-      { country:"Panama",        name:"Erick Echevers",     title:"Sales Rep",             level:"",              reason:"Resignation"     },
-      { country:"South Africa",  name:"Phemelo Madalane",   title:"Sales Representative",  level:"IC I (1a-1c)",  reason:"Performance"     },
+  "4/27/26": {
+        bajas: [
+      { country:"Colombia", title:"Sales Enablement Analyst", dept:"Merchant Operations", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"India", title:"Country Manager", dept:"Go To Market", termType:"Involuntary", reason:"Unknown", regrettable:"" },
+      { country:"Mexico", title:"Treasury Director", dept:"FPA and Treasury", termType:"Voluntary", reason:"Other employment", regrettable:"Regrettable" },
+      { country:"Mexico", title:"Growth Manager - New Initiatives", dept:"Sales", termType:"Voluntary", reason:"Other", regrettable:"N/A" },
+      { country:"Mexico", title:"Operations Director", dept:"Merchant Operations", termType:"Voluntary", reason:"Other employment", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Financial Analyst", dept:"FPA and Treasury", termType:"Voluntary", reason:"Personal", regrettable:"Regrettable" },
+      { country:"Mexico", title:"Key Account Lead", dept:"Sales", termType:"Voluntary", reason:"Other", regrettable:"Regrettable" },
+      { country:"Mexico", title:"Fraud Operations Lead", dept:"Fraud Operations", termType:"Voluntary", reason:"Personal", regrettable:"Regrettable" },
+      { country:"Mexico", title:"Commercial Counsel Senior Manager", dept:"Legal", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Philippines", title:"Collections Representative", dept:"Global Collections", termType:"Voluntary", reason:"Personal", regrettable:"Non-Regrettable" },
+      { country:"Philippines", title:"Promoter Manager", dept:"Sales", termType:"Voluntary", reason:"Personal", regrettable:"Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Daniel Puente",      title:"Risk Analyst",               level:"IC II (2a-2c)" },
-      { country:"Mexico",        name:"Daniela Carbajal",   title:"Merchant Ops Analyst",       level:"IC II (2a-2c)" },
-      { country:"Mexico",        name:"Daniel Cruz",        title:"Software Engineer",          level:"IC IV (4a-4c)" },
-      { country:"Colombia",      name:"Carolina Gomez",     title:"Sr. Software Engineer",      level:"IC IV (4a-4c)" },
-      { country:"Colombia",      name:"Melissa Vargas",     title:"Sr. Software Engineer",      level:"IC IV (4a-4c)" },
-      { country:"Colombia",      name:"Julian Peña",        title:"Sr. Software Engineer",      level:"IC IV (4a-4c)" },
-      { country:"United States", name:"Raemi Gross",        title:"Corporate Finance Director", level:"IC V (5a-5c)"  },
-      { country:"Peru",          name:"Jair Sandahaus",     title:"Key Account Lead",           level:""              },
-      { country:"South Africa",  name:"Kgopotso Kola",      title:"Sales Representative",       level:"IC I (1a-1c)"  },
-      { country:"Philippines",   name:"Zhara Sangalang",    title:"Regional Sales Manager",     level:"IC III (3a-3c)"},
-      { country:"Panama",        name:"Leonardo Pineda",    title:"Sales Representative",       level:""              },
+      { country:"Indonesia", name:"Sandy Dominggus", title:"Sales Representative", level:"1b" },
+      { country:"Mexico", name:"Linda Zaragoza", title:"Key Account Manager - New Whales", level:"3a" },
+      { country:"Panama", name:"Anie Adames", title:"Collection Representative", level:"1a" },
+      { country:"United States", name:"Ray Asghaei", title:"Senior Director of Total Rewards & People Operations", level:"6b" },
+      { country:"United States", name:"Zaviear Lue", title:"Global Head of Talent Acquisition", level:"5b" },
     ]
   },
-  "4/28/26": {
-    bajas: [
-      { country:"Panama",        name:"Erick Echevers",    title:"Sales Rep",              level:"",              reason:"Resignation" },
-      { country:"Colombia",      name:"Luis Gomez",        title:"Sales Enablement Analyst",level:"IC II (2a-2c)",reason:"Performance" },
-      { country:"Philippines",   name:"Karl Francisco",    title:"Promoter Manager",       level:"IC III (3a-3c)",reason:"Resignation" },
-      { country:"Mexico",        name:"José Pablo Torres", title:"Financial Analyst",      level:"IC II (2a-2c)", reason:"Resignation" },
-      { country:"Mexico",        name:"Israel Gonzalez",   title:"KAL",                   level:"IC II (2a-2c)", reason:"Resignation" },
-      { country:"Mexico",        name:"Regina Ladrón",     title:"",                      level:"IC IV (4a-4c)", reason:"Performance" },
-      { country:"Mexico",        name:"Mariana Cobos",     title:"Treasury Director",     level:"IC V (5a-5c)",  reason:"Resignation" },
-      { country:"Mexico",        name:"Ana Chico",         title:"Mops Director",         level:"IC V (5a-5c)",  reason:"Resignation" },
-      { country:"Mexico",        name:"Pablo Floresmeyer", title:"MBA",                   level:"IC III (3a-3c)",reason:"Resignation" },
+  "5/4/26": {
+        bajas: [
+      { country:"Brazil", title:"Graphic Designer Manager", dept:"Marketing", termType:"Involuntary", reason:"Performance", regrettable:"Non-Regrettable" },
+      { country:"Ecuador", title:"Sales Representative", dept:"Sales", termType:"Voluntary", reason:"No pasa Periodo de Prueba", regrettable:"Non-Regrettable" },
+      { country:"Mexico", title:"Key Account Senior Manager", dept:"Sales", termType:"Involuntary", reason:"Performance Issues", regrettable:"N/A" },
+      { country:"Panama", title:"HR Coordinator", dept:"People Partners", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Peru", title:"Marketing Analyst", dept:"Marketing", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
+      { country:"Peru", title:"Key Account Lead", dept:"Sales", termType:"Involuntary", reason:"Performance Issues", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Mexico",        name:"Linda Zaragoza",    title:"Key Account Manager",            level:"IC III (3a-3c)"},
-      { country:"United States", name:"Zaviear Lue",       title:"Global Head of Talent Acquisition",level:""            },
-      { country:"Panama",        name:"Anie Adames",       title:"Collections Rep",                level:""              },
-      { country:"Indonesia",     name:"Sandy Dominggus",   title:"Sales Representative",           level:"IC I (1a-1c)"  },
-    ]
-  },
-  "5/5/26": {
-    bajas: [
-      { country:"Mexico", name:"Siomara Caballero", title:"Sr. KAM", level:"IC IV (4a-4c)", reason:"Performance" },
-      { country:"Panama", name:"Yolanda Cesar",     title:"HR Coordinator", level:"",       reason:"Performance" },
-    ],
-    ingresos: [
-      { country:"Mexico",        name:"Sarai Rivas",         title:"Compliance Manager",                      level:"IC III (3a-3c)" },
-      { country:"Mexico",        name:"Elisa Trejo",          title:"Treasury Analyst",                        level:"IC II (2a-2c)"  },
-      { country:"Mexico",        name:"Mauricio Ríos",        title:"Payroll Manager",                         level:"IC III (3a-3c)" },
-      { country:"Colombia",      name:"Lady Moreno",          title:"Accounting Manager",                      level:"IC III (3a-3c)", manager:"David Vega"      },
-      { country:"Colombia",      name:"Camilo Bustamante",    title:"Merchant Ops Analyst",                    level:"IC II (2a-2c)",  manager:"Daniela Duque"   },
-      { country:"Colombia",      name:"Hector Zapata",        title:"Sales Representative",                    level:"IC I (1a-1c)",   manager:"Yorlady Zapata"  },
-      { country:"United States", name:"Sanjay Patil",         title:"Engineering Director — Lock Platform",    level:"IC V (5a-5c)",   manager:"Miguel DeAvila"  },
-      { country:"Peru",          name:"Javier Oda",           title:"Strategy & Performance Manager",          level:"IC III (3a-3c)" },
-      { country:"Peru",          name:"Lino Quispe",          title:"Sales Representative",                    level:"IC I (1a-1c)"   },
-      { country:"Ecuador",       name:"Franco Costales",      title:"Sales Representative",                    level:"IC I (1a-1c)"   },
-      { country:"Philippines",   name:"Anna San Pablo",       title:"Growth Manager",                          level:"IC III (3a-3c)", manager:"Josh Paz"        },
-      { country:"Indonesia",     name:"Josh Putra",           title:"Merchant Ops Director — Regional",        level:"IC V (5a-5c)"   },
-      { country:"Indonesia",     name:"Reza Siahaan",         title:"Commercial Analyst",                      level:"IC II (2a-2c)"  },
+      { country:"Brazil", name:"Raquel Queiroz", title:"Territory Manager", level:"2a" },
+      { country:"Brazil", name:"Stephanye Gonçalves", title:"Merchant Operations Analyst", level:"2a" },
+      { country:"Colombia", name:"Hector Madrid", title:"Sales Representative - Medellín", level:"1b" },
+      { country:"Ecuador", name:"Franco Costales", title:"Sales Representative", level:"1a" },
+      { country:"Indonesia", name:"Josh Putra", title:"Merchant Operations Director - Regional", level:"5a" },
+      { country:"Indonesia", name:"Reza Siahaan", title:"Commercial Analyst", level:"2b" },
+      { country:"Mexico", name:"Elisa Trejo", title:"Treasury Analyst - Cash Management", level:"2b" },
+      { country:"Mexico", name:"Mauricio Rios", title:"Payroll Manager", level:"3a" },
+      { country:"Mexico", name:"Sara Rivas", title:"Compliance Manager", level:"3a" },
+      { country:"Peru", name:"Javier Oda", title:"Strategy & Performance Manager", level:"3b" },
+      { country:"Peru", name:"Lino Quispe", title:"Sales Representative", level:"1b" },
+      { country:"Philippines", name:"Anna San Pablo", title:"Growth Representative", level:"3b" },
+      { country:"United States", name:"Sanjay Patil", title:"Engineering Director - Lock Platform", level:"5a" },
     ]
   },
   "5/11/26": {
-    bajas: [
-      { country:"Brazil",        name:"Elias Monteiro",             title:"Graphic Designer Manager",                          level:"3a", reason:"Performance"               },
-      { country:"Ecuador",       name:"Jeferson Ganchala",          title:"Sales Representative",                              level:"1a", reason:"No pasa Periodo de Prueba" },
-      { country:"Mexico",        name:"Daniela Castellanos Garcia", title:"Collections Representative",                        level:"1b", reason:"Other Employment"          },
-      { country:"Mexico",        name:"Siomara Caballero",          title:"Key Account Senior Manager",                        level:"4b", reason:"Performance Issues"        },
-      { country:"United States", name:"Brandon Fenton",             title:"Total Rewards & People Operations Senior Director", level:"6a", reason:"Dismissal"                 },
+        bajas: [
+      { country:"Mexico", title:"Collections Representative", dept:"Global Collections", termType:"Involuntary", reason:"Other employment", regrettable:"Non-Regrettable" },
+      { country:"United States", title:"Total Rewards & People Ops Sr Director", dept:"People Operations", termType:"Involuntary", reason:"Dismissal", regrettable:"Non-Regrettable" },
     ],
     ingresos: [
-      { country:"Brazil",        name:"Adriana Monteiro",      title:"Sales Representative",                              level:"1a"     },
-      { country:"Colombia",      name:"Helix Genetics",        title:"Senior Software Engineer",                          level:"4a"     },
-      { country:"Mexico",        name:"Alejandro Galicia",     title:"Support Tools Analyst",                             level:"2a"     },
-      { country:"Mexico",        name:"Andres Enriquez",       title:"Financial Manager",                                 level:"3a"     },
-      { country:"Mexico",        name:"Leon Miranda Ferrari",  title:"Market Expansion Manager",                          level:"3b"     },
-      { country:"Mexico",        name:"Mariel Labanca",        title:"Key Account Senior Manager",                        level:"4b"     },
-      { country:"Mexico",        name:"Rodrigo Díaz",          title:"Partnership Insights & Analytics Partner",          level:"3b"     },
-      { country:"Peru",          name:"Kevin Ramírez",         title:"Key Account Lead",                                  level:"2b"     },
-      { country:"Peru",          name:"Paulo Vilca",           title:"Sales Representative",                              level:"1b"     },
-      { country:"Peru",          name:"Sebastian Montoya",     title:"Growth Analyst",                                    level:"2b"     },
-      { country:"United States", name:"Animesh Kondiparthy",   title:"Senior Product Manager",                            level:"4b"     },
-      { country:"United States", name:"Wesley Robinson",       title:"Sr. Software Engineer - Customer Data Platform",    level:"4b"     },
+      { country:"Brazil", name:"Adriana Monteiro", title:"Sales Representative", level:"1a" },
+      { country:"Colombia", name:"Helix Genetics", title:"Senior Software Engineer", level:"4a" },
+      { country:"Mexico", name:"Alejandro Galicia", title:"Support Tools Analyst", level:"2a" },
+      { country:"Mexico", name:"Andres Entiquez", title:"Financial Manager", level:"3a" },
+      { country:"Mexico", name:"Leon Miranda Ferrari", title:"Market Expansion Manager", level:"3b" },
+      { country:"Mexico", name:"Mariel Labanca", title:"Key Account Senior Manager", level:"4b" },
+      { country:"Mexico", name:"Rodrigo Diaz", title:"Partnership Insights & Analytics Partner", level:"3b" },
+      { country:"Peru", name:"Kevin Ramírez", title:"Key Account Lead", level:"2b" },
+      { country:"Peru", name:"Paulo Vilca", title:"Sales Representative", level:"1b" },
+      { country:"Peru", name:"Sebastian Montoya", title:"Growth Analyst", level:"2b" },
+      { country:"United States", name:"Animesh Kondiparthy", title:"Senior Product Manager", level:"4b" },
+      { country:"United States", name:"Wesley Robinson", title:"Sr. Software Engineer - Customer Data Platform", level:"4b" },
     ]
   },
 };
@@ -1597,24 +1669,46 @@ function renderMovements() {
   const data = WEEKLY_MOV[activeWeek];
   if (!data) return;
 
-  const bajaItems = data.bajas.map(b => {
-    const termType = b.reason ? TERM_TYPE[b.reason] : "";
+  // Sort by HC country order (Mexico first, then Brazil, etc.)
+  const sel = document.getElementById("country-month-sel");
+  const idx = sel ? parseInt(sel.value) : 12;
+  const countryOrder = Object.entries(HC_BY_COUNTRY)
+    .map(([country, arr]) => ({ country, hc: arr[idx] || 0 }))
+    .sort((a, b) => b.hc - a.hc)
+    .map(r => r.country);
+  const countryRank = c => { const i = countryOrder.indexOf(c); return i === -1 ? 99 : i; };
+
+  const sortedBajas    = [...data.bajas].sort((a, b) => countryRank(a.country) - countryRank(b.country));
+  const sortedIngresos = [...data.ingresos].sort((a, b) => countryRank(a.country) - countryRank(b.country));
+
+  const bajaItems = sortedBajas.map(b => {
+    const color = COUNTRY_COLORS[b.country] || "#94a3b8";
+    const termType = b.termType || (b.reason ? TERM_TYPE[b.reason] : "");
     const typeClass = termType === "Voluntary" ? "term-type-vol" : termType === "Involuntary" ? "term-type-invol" : "";
     const typeHtml = termType ? `<span class="term-type-badge ${typeClass}">${termType}</span>` : "";
-    const reasonHtml = b.reason ? `<span class="mov-item-reason ${REASON_CLASS[b.reason]||''}">${b.reason}</span>` : "";
-    return `<div class="mov-item baja">
-      <div class="mov-item-country">${b.country}</div>
+    const reason = b.reason || "";
+    const reasonHtml = reason ? `<span class="mov-item-reason">${reason}</span>` : "";
+    const deptHtml = b.dept ? `<div style="font-size:9.5px;color:var(--text-muted);margin-top:1px;">${b.dept}</div>` : "";
+    const regrettableColor = b.regrettable === "Regrettable" ? "#ef4444" : b.regrettable === "Non-Regrettable" ? "#94a3b8" : "#f59e0b";
+    const regrettableHtml = b.regrettable ? `<span style="font-size:8.5px;font-weight:600;color:${regrettableColor};margin-left:auto;">${b.regrettable}</span>` : "";
+    return `<div class="mov-item baja" style="border-left-color:${color};">
+      <div style="display:flex;align-items:center;gap:4px;">
+        <div class="mov-item-country" style="color:${color};">${b.country}</div>
+        ${regrettableHtml}
+      </div>
       ${b.title ? `<div class="mov-item-title">${b.title}</div>` : ""}
-      <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin-top:3px;">${typeHtml}${reasonHtml}</div>
+      ${deptHtml}
+      <div style="display:flex;align-items:center;gap:3px;flex-wrap:wrap;margin-top:2px;">${typeHtml}${reasonHtml}</div>
     </div>`;
   }).join("");
 
-  const ingresoItems = data.ingresos.map(i => {
+  const ingresoItems = sortedIngresos.map(i => {
+    const color = COUNTRY_COLORS[i.country] || "#94a3b8";
     const nameHtml = i.name ? `<div class="mov-item-name">${i.name}</div>` : "";
     const titleLine = i.title ? `<div class="mov-item-title">${i.title}</div>` : "";
-    const managerLine = i.manager ? `<div style="font-size:10.5px;color:var(--text-muted);margin-top:2px;">Manager: ${i.manager}</div>` : "";
-    return `<div class="mov-item ingreso">
-      <div class="mov-item-country">${i.country}</div>
+    const managerLine = i.manager ? `<div style="font-size:10px;color:var(--text-muted);margin-top:1px;">Mgr: ${i.manager}</div>` : "";
+    return `<div class="mov-item ingreso" style="border-left-color:${color};">
+      <div class="mov-item-country" style="color:${color};">${i.country}</div>
       ${nameHtml}${titleLine}${managerLine}
     </div>`;
   }).join("");
@@ -1783,6 +1877,7 @@ function updateKPIHC() {
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
 let filters = { depto:"", nivel:"", emptype:"" };
+let analysisFilters = { country:"", dept:"", level:"" };
 let activePeriod = "q1";
 
 // ─── PERIOD TOGGLE ────────────────────────────────────────────────────────────
@@ -1992,8 +2087,8 @@ function renderSection2() {
 }
 
 // ─── SECTION 3 ────────────────────────────────────────────────────────────────
-function renderGender() {
-  const key = filters.depto || filters.nivel || filters.emptype || "default";
+function renderGender(forceKey) {
+  const key = forceKey || filters.depto || filters.nivel || filters.emptype || "default";
   const g = DATA.gender[key] || DATA.gender.default;
   const ns = g.ns || 0;
   const fPct  = g.total > 0 ? (g.f  / g.total * 100) : 0;
@@ -2024,12 +2119,12 @@ function renderGender() {
   circles[2].setAttribute("stroke-dashoffset",`${(-fL-2).toFixed(1)}`);
   circles[3].setAttribute("stroke-dasharray",`${mL.toFixed(1)} ${(circ-mL).toFixed(1)}`);
   circles[3].setAttribute("stroke-dashoffset",`${(-fL-nbL-4).toFixed(1)}`);
-  const activeKey = filters.depto||filters.nivel||filters.emptype;
+  const activeKey = forceKey || filters.depto||filters.nivel||filters.emptype;
   document.getElementById("gen-subtitle").textContent = activeKey ? "Gender · "+activeKey : "Distribution of total headcount";
 }
 
-function renderTenure() {
-  const activeKey = filters.depto || filters.nivel || filters.emptype || "default";
+function renderTenure(forceKey) {
+  const activeKey = forceKey || filters.depto || filters.nivel || filters.emptype || "default";
   const rows = DATA.tenure[activeKey] || DATA.tenure.default;
   const max = Math.max(...rows.map(r=>r.val));
   const total = rows.reduce((s,r)=>s+r.val,0);
@@ -2060,7 +2155,7 @@ function renderTenure() {
      <span class="chip amber">${medium} (${medP}%) medium</span>
      <span class="chip green">${low} (${lowP}%) stable</span>`;
 
-  const label = activeKey !== "default" ? "Tenure · " + activeKey : "Employees grouped by time at company";
+  const label = (activeKey && activeKey !== "default") ? "Tenure · " + activeKey : "Employees grouped by time at company";
   document.getElementById("ten-subtitle").textContent = label;
 }
 
@@ -2117,6 +2212,47 @@ function clearFilter(key) {
   renderHCTrend(); updateKPIHC();
 }
 
+// ─── ANALYSIS TAB FILTERS ─────────────────────────────────────────────────────
+function applyAnalysisFilters() {
+  analysisFilters.country = document.getElementById("af-country").value;
+  analysisFilters.dept    = document.getElementById("af-dept").value;
+  analysisFilters.level   = document.getElementById("af-level").value;
+
+  // Determine the best matching key in DATA.gender / DATA.tenure
+  // Priority: country > dept > level > "default"
+  // Level only has "Intern" as a valid key
+  let key = "default";
+  if (analysisFilters.country) key = analysisFilters.country;
+  else if (analysisFilters.dept) key = analysisFilters.dept;
+  else if (analysisFilters.level === "Intern") key = "Intern";
+
+  // Update label badge
+  const labelEl = document.getElementById("af-label");
+  const parts = [];
+  if (analysisFilters.country) parts.push(analysisFilters.country);
+  if (analysisFilters.dept)    parts.push(analysisFilters.dept);
+  if (analysisFilters.level)   parts.push(analysisFilters.level);
+  if (parts.length > 0) {
+    labelEl.textContent = "Showing: " + parts.join(" · ");
+    labelEl.style.display = "";
+  } else {
+    labelEl.style.display = "none";
+  }
+
+  renderGender(key);
+  renderTenure(key);
+}
+
+function clearAnalysisFilters() {
+  document.getElementById("af-country").value = "";
+  document.getElementById("af-dept").value = "";
+  document.getElementById("af-level").value = "";
+  analysisFilters = { country:"", dept:"", level:"" };
+  document.getElementById("af-label").style.display = "none";
+  renderGender("default");
+  renderTenure("default");
+}
+
 function resetFilters() {
   ["depto","nivel","emptype"].forEach(k=>{ document.getElementById("filter-"+k).value=""; filters[k]=""; });
   document.getElementById("filter-quarter").value = "all";
@@ -2132,12 +2268,12 @@ function resetFilters() {
 //          Voluntary (All/L2+), Avg Full Employees (All/L2+), Qrly Vol L2+, Qrly Avg HC L2+, Qrly Attr L2+
 // inv = tot - vol (derived)
 const ATTR_TABLE_DATA = [
-  { period:"November 2025", q:"Q4 2025", all:{tot:16,reg:3, nr:13,vol:10,inv:6, hc:924.8},  l2:{tot:9, reg:3,nr:6, vol:5,inv:4, hc:636.0}, qVolL2:16, qHcL2:613.0,    qAttr:2.61 },
-  { period:"December 2025", q:"Q4 2025", all:{tot:17,reg:7, nr:10,vol:11,inv:6, hc:918.4},  l2:{tot:10,reg:6,nr:4, vol:6,inv:4, hc:646.0}, qVolL2:12, qHcL2:636.0,    qAttr:1.89 },
-  { period:"January 2026",  q:"Q1 2026", all:{tot:17,reg:3, nr:14,vol:4, inv:13,hc:939.1},  l2:{tot:12,reg:3,nr:9, vol:3,inv:9, hc:655.0}, qVolL2:14, qHcL2:645.67,   qAttr:2.17 },
-  { period:"February 2026", q:"Q1 2026", all:{tot:17,reg:5, nr:12,vol:6, inv:11,hc:963.0},  l2:{tot:11,reg:3,nr:6, vol:4,inv:7, hc:661.0}, qVolL2:13, qHcL2:654.0,    qAttr:1.99 },
-  { period:"March 2026",    q:"Q1 2026", all:{tot:21,reg:4, nr:17,vol:9, inv:12,hc:965.0},  l2:{tot:12,reg:3,nr:10,vol:6,inv:6, hc:677.0}, qVolL2:13, qHcL2:664.33,   qAttr:1.96 },
-  { period:"April 2026",    q:"Q2 2026", all:{tot:23,reg:5, nr:15,vol:10,inv:13,hc:1015.0}, l2:{tot:12,reg:5,nr:6, vol:7,inv:5, hc:709.0}, qVolL2:17, qHcL2:682.33,   qAttr:2.49 },
+  { period:"November 2025", q:"Q4 2025", all:{tot:16,reg:3, nr:13,vol:10,inv:6, hc:924.8},  l2:{tot:9, reg:3,nr:6, vol:5,inv:4, hc:636.0}, qVolL2:16, qHcL2:613.0,   qAttr:2.61, qRegAll:16, qHcRegAll:613,    qAttrReg:2.61, qRegL2:16, qHcRegL2:613,    qAttrRegL2:2.61 },
+  { period:"December 2025", q:"Q4 2025", all:{tot:17,reg:7, nr:10,vol:11,inv:6, hc:918.4},  l2:{tot:10,reg:6,nr:4, vol:6,inv:4, hc:646.0}, qVolL2:12, qHcL2:636.0,   qAttr:1.89, qRegAll:12, qHcRegAll:636,    qAttrReg:1.89, qRegL2:12, qHcRegL2:636,    qAttrRegL2:1.89 },
+  { period:"January 2026",  q:"Q1 2026", all:{tot:17,reg:3, nr:14,vol:4, inv:13,hc:939.1},  l2:{tot:12,reg:3,nr:9, vol:3,inv:9, hc:655.0}, qVolL2:14, qHcL2:645.67,  qAttr:2.17, qRegAll:13, qHcRegAll:927,    qAttrReg:1.40, qRegL2:12, qHcRegL2:645.67, qAttrRegL2:1.86 },
+  { period:"February 2026", q:"Q1 2026", all:{tot:17,reg:5, nr:12,vol:6, inv:11,hc:963.0},  l2:{tot:11,reg:3,nr:6, vol:4,inv:7, hc:661.0}, qVolL2:13, qHcL2:654.0,   qAttr:1.99, qRegAll:15, qHcRegAll:940,    qAttrReg:1.60, qRegL2:12, qHcRegL2:654,    qAttrRegL2:1.83 },
+  { period:"March 2026",    q:"Q1 2026", all:{tot:21,reg:4, nr:17,vol:9, inv:12,hc:965.0},  l2:{tot:12,reg:3,nr:10,vol:6,inv:6, hc:677.0}, qVolL2:13, qHcL2:664.33,  qAttr:1.96, qRegAll:12, qHcRegAll:956,    qAttrReg:1.26, qRegL2:9,  qHcRegL2:664.33, qAttrRegL2:1.35 },
+  { period:"April 2026",    q:"Q2 2026", all:{tot:25,reg:6, nr:15,vol:12,inv:13,hc:1021.0}, l2:{tot:15,reg:6,nr:6, vol:9,inv:6, hc:701.0}, qVolL2:19, qHcL2:679.67,  qAttr:2.80, qRegAll:15, qHcRegAll:983,    qAttrReg:1.53, qRegL2:12, qHcRegL2:679.67, qAttrRegL2:1.77 },
 ];
 let attrView = 'all';
 
@@ -2151,6 +2287,8 @@ function setAttrView(v) {
 function pctBadgeClass(p) { return p >= 2.3 ? 'pct-high' : p >= 1.9 ? 'pct-mid' : 'pct-low'; }
 
 function renderAttrTable() {
+  const gBg = 'background:#f0fdf4;';
+  const bBg = 'background:#eff6ff;';
   const thead = `<thead>
     <tr>
       <th rowspan="2" style="vertical-align:bottom;">Period</th>
@@ -2159,8 +2297,9 @@ function renderAttrTable() {
       <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border);">Non Regrettable</th>
       <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border);">Voluntary</th>
       <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border);">Avg full employees</th>
-      <th colspan="2" style="text-align:center;border-bottom:1px solid var(--border);">Qrly Data</th>
-      <th rowspan="2" style="text-align:center;vertical-align:bottom;">Qrly Attrition<br><span style="font-weight:400;font-size:10px;">L2+</span></th>
+      <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border);background:#fff7ed;">Voluntary Attrition</th>
+      <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border);${gBg}">Regrettable All Attrition</th>
+      <th colspan="3" style="text-align:center;border-bottom:1px solid var(--border);${bBg}">Regrettable L2+ Attrition</th>
     </tr>
     <tr>
       <th style="text-align:center;font-weight:500;color:var(--text-muted);">All</th><th style="text-align:center;font-weight:600;">L2+</th>
@@ -2168,8 +2307,15 @@ function renderAttrTable() {
       <th style="text-align:center;font-weight:500;color:var(--text-muted);">All</th><th style="text-align:center;font-weight:600;">L2+</th>
       <th style="text-align:center;font-weight:500;color:var(--text-muted);">All</th><th style="text-align:center;font-weight:600;">L2+</th>
       <th style="text-align:center;font-weight:500;color:var(--text-muted);">All</th><th style="text-align:center;font-weight:600;">L2+</th>
-      <th style="text-align:center;font-size:10px;font-weight:500;color:var(--text-muted);">Vol L2+ Qrly</th>
-      <th style="text-align:center;font-size:10px;font-weight:500;color:var(--text-muted);">Avg HC L2+</th>
+      <th style="text-align:center;font-size:10px;font-weight:500;color:var(--text-muted);background:#fff7ed;">Vol L2+ Qrly</th>
+      <th style="text-align:center;font-size:10px;font-weight:500;color:var(--text-muted);background:#fff7ed;">Avg HC L2+</th>
+      <th style="text-align:center;font-size:10px;font-weight:600;background:#fff7ed;">Qrly Attrition L2+</th>
+      <th style="text-align:center;font-size:10px;font-weight:500;${gBg}">Total Reg Qrly</th>
+      <th style="text-align:center;font-size:10px;font-weight:500;${gBg}">Avg HC Qrly</th>
+      <th style="text-align:center;font-size:10px;font-weight:600;${gBg}">Regrettable All</th>
+      <th style="text-align:center;font-size:10px;font-weight:500;${bBg}">Total Reg (+L2) Qrly</th>
+      <th style="text-align:center;font-size:10px;font-weight:500;${bBg}">Avg HC Qrly</th>
+      <th style="text-align:center;font-size:10px;font-weight:600;${bBg}">Regrettable L2+</th>
     </tr>
   </thead>`;
 
@@ -2192,9 +2338,15 @@ function renderAttrTable() {
       <td style="text-align:center;font-weight:700;">${r.l2.vol}</td>
       <td style="text-align:center;color:var(--text-muted);">${r.all.hc}</td>
       <td style="text-align:center;font-weight:700;">${r.l2.hc}</td>
-      <td style="text-align:center;color:var(--text-muted);">${r.qVolL2}</td>
-      <td style="text-align:center;color:var(--text-muted);">${r.qHcL2}</td>
-      <td style="text-align:center;"><span class="abadge ${pctBadgeClass(r.qAttr)}">${r.qAttr}%</span></td>
+      <td style="text-align:center;color:var(--text-muted);background:#fff7ed;">${r.qVolL2}</td>
+      <td style="text-align:center;color:var(--text-muted);background:#fff7ed;">${r.qHcL2}</td>
+      <td style="text-align:center;background:#fff7ed;"><span class="abadge ${pctBadgeClass(r.qAttr)}">${r.qAttr}%</span></td>
+      <td style="text-align:center;color:var(--text-muted);background:#f0fdf4;">${r.qRegAll}</td>
+      <td style="text-align:center;color:var(--text-muted);background:#f0fdf4;">${r.qHcRegAll}</td>
+      <td style="text-align:center;background:#f0fdf4;"><span class="abadge ${pctBadgeClass(r.qAttrReg)}">${r.qAttrReg}%</span></td>
+      <td style="text-align:center;color:var(--text-muted);background:#eff6ff;">${r.qRegL2}</td>
+      <td style="text-align:center;color:var(--text-muted);background:#eff6ff;">${r.qHcRegL2}</td>
+      <td style="text-align:center;background:#eff6ff;"><span class="abadge ${pctBadgeClass(r.qAttrRegL2)}">${r.qAttrRegL2}%</span></td>
     </tr>`;
   }).join('')}</tbody>`;
 
@@ -2355,6 +2507,17 @@ document.querySelectorAll(".nav-item").forEach(item => {
     this.classList.add("active");
   });
 });
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────────
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  const tabOrder = ['tab-hc','tab-attrition','tab-analysis'];
+  const idx = tabOrder.indexOf(tabId);
+  if (idx >= 0) document.querySelectorAll('.page-tab')[idx].classList.add('active');
+}
+
 </script>
 
 <!-- ── CHATBOT WIDGET ──────────────────────────────────────────────────────── -->
